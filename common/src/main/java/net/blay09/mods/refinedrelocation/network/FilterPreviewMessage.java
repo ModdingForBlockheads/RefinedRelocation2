@@ -1,10 +1,22 @@
 package net.blay09.mods.refinedrelocation.network;
 
+import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.client.FilterPreviewHandler;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-public class FilterPreviewMessage {
+public class FilterPreviewMessage implements CustomPacketPayload {
+
+    public static final CustomPacketPayload.Type<FilterPreviewMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(
+            RefinedRelocation.MOD_ID,
+            "filter_preview"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
 
     public static final int STATE_FAILURE = 0;
     public static final int STATE_SUCCESS = 1;
@@ -18,7 +30,7 @@ public class FilterPreviewMessage {
         assert slotStates.length == INVENTORY_SLOT_COUNT;
     }
 
-    public static void encode(FilterPreviewMessage message, FriendlyByteBuf buf) {
+    public static void encode(FriendlyByteBuf buf, FilterPreviewMessage message) {
         buf.writeBytes(message.slotStates);
     }
 

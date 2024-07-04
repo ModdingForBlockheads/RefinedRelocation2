@@ -13,6 +13,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class FastHopperBlockEntity extends BalmBlockEntity implements BalmMenuProvider, BalmContainerProvider, Nameable {
+public class FastHopperBlockEntity extends BalmBlockEntity implements BalmMenuProvider<BlockPos>, BalmContainerProvider, Nameable {
 
     private static final Predicate<? super Entity> HAS_ITEM_HANDLER = (entity) -> Balm.getProviders().getProvider(entity, Container.class) != null;
 
@@ -220,4 +222,13 @@ public class FastHopperBlockEntity extends BalmBlockEntity implements BalmMenuPr
         }
     }
 
+    @Override
+    public BlockPos getScreenOpeningData(ServerPlayer serverPlayer) {
+        return worldPosition;
+    }
+
+    @Override
+    public StreamCodec getScreenStreamCodec() {
+        return BlockPos.STREAM_CODEC.cast();
+    }
 }

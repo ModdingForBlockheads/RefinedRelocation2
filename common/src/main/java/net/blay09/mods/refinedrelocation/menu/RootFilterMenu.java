@@ -12,9 +12,12 @@ import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.blay09.mods.refinedrelocation.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.grid.SortingInventory;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -141,7 +144,7 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
     public void receivedMessageServer(IMenuMessage message) {
         switch (message.getKey()) {
             case KEY_OPEN_ADD_FILTER:
-                MenuProvider menuProvider = new BalmMenuProvider() {
+                final var menuProvider = new BalmMenuProvider<AddFilterMenu.Data>() {
                     @Override
                     public Component getDisplayName() {
                         return Component.translatable("container.refinedrelocation:add_filter");
@@ -153,9 +156,13 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
                     }
 
                     @Override
-                    public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
-                        buf.writeBlockPos(blockEntity.getBlockPos());
-                        buf.writeByte(rootFilterIndex);
+                    public AddFilterMenu.Data getScreenOpeningData(ServerPlayer serverPlayer) {
+                        return new AddFilterMenu.Data(blockEntity.getBlockPos(), rootFilterIndex);
+                    }
+
+                    @Override
+                    public StreamCodec<RegistryFriendlyByteBuf, AddFilterMenu.Data> getScreenStreamCodec() {
+                        return AddFilterMenu.Data.STREAM_CODEC;
                     }
                 };
                 Balm.getNetworking().openGui(player, menuProvider);

@@ -1,10 +1,23 @@
 package net.blay09.mods.refinedrelocation.network;
 
+import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.filter.ModFilter;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-public class LoginSyncListMessage {
+@Deprecated
+public class LoginSyncListMessage implements CustomPacketPayload {
+
+    public static final CustomPacketPayload.Type<LoginSyncListMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(
+            RefinedRelocation.MOD_ID,
+            "login_sync_list"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
 
     public static final int TYPE_MODS = 1;
 
@@ -16,7 +29,7 @@ public class LoginSyncListMessage {
         this.values = values;
     }
 
-    public static void encode(LoginSyncListMessage message, FriendlyByteBuf buf) {
+    public static void encode(FriendlyByteBuf buf, LoginSyncListMessage message) {
         buf.writeByte(message.type);
         buf.writeShort(message.values.length);
         for (String value : message.values) {

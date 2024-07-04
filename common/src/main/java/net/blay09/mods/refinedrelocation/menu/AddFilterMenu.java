@@ -8,13 +8,25 @@ import net.blay09.mods.refinedrelocation.api.filter.IFilter;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.filter.FilterRegistry;
 import net.blay09.mods.refinedrelocation.filter.RootFilter;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class AddFilterMenu extends AbstractBaseMenu implements IRootFilterMenu {
+
+    public record Data(BlockPos pos, int rootFilterIndex) {
+        public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC = StreamCodec.composite(
+                BlockPos.STREAM_CODEC, Data::pos,
+                ByteBufCodecs.INT, Data::rootFilterIndex,
+                Data::new
+        );
+    }
 
     public static final String KEY_ADD_FILTER = "AddFilter";
     public static final String KEY_ROOT_FILTER = "RootFilter";

@@ -1,10 +1,21 @@
 package net.blay09.mods.refinedrelocation.network;
 
+import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-public class NBTMenuMessage extends MenuMessage {
+public class NBTMenuMessage extends MenuMessage implements CustomPacketPayload {
+
+    public static final CustomPacketPayload.Type<NBTMenuMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(
+            RefinedRelocation.MOD_ID, "nbt_menu"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
 
     private final CompoundTag value;
 
@@ -13,7 +24,7 @@ public class NBTMenuMessage extends MenuMessage {
         this.value = value;
     }
 
-    public static void encode(NBTMenuMessage message, FriendlyByteBuf buf) {
+    public static void encode(FriendlyByteBuf buf, NBTMenuMessage message) {
         buf.writeUtf(message.key);
         buf.writeNbt(message.value);
     }

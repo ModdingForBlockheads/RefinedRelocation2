@@ -22,7 +22,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -44,7 +47,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenuProvider,
+public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenuProvider<BlockPos>,
         BalmContainerProvider,
         OnLoadHandler,
         Nameable,
@@ -301,5 +304,15 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
         for (int i = 0; i < container.getContainerSize(); i++) {
             container.setItem(i, ItemStack.EMPTY);
         }
+    }
+
+    @Override
+    public BlockPos getScreenOpeningData(ServerPlayer serverPlayer) {
+        return worldPosition;
+    }
+
+    @Override
+    public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
+        return BlockPos.STREAM_CODEC.cast();
     }
 }

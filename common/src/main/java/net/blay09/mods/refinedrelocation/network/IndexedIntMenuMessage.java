@@ -1,8 +1,19 @@
 package net.blay09.mods.refinedrelocation.network;
 
+import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 
-public class IndexedIntMenuMessage extends MenuMessage {
+public class IndexedIntMenuMessage extends MenuMessage implements CustomPacketPayload {
+
+    public static final CustomPacketPayload.Type<IndexedIntMenuMessage> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(
+            RefinedRelocation.MOD_ID, "indexed_int_menu"));
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
 
     private final int index;
     private final int value;
@@ -13,7 +24,7 @@ public class IndexedIntMenuMessage extends MenuMessage {
         this.value = value;
     }
 
-    public static void encode(IndexedIntMenuMessage message, FriendlyByteBuf buf) {
+    public static void encode(FriendlyByteBuf buf, IndexedIntMenuMessage message) {
         buf.writeUtf(message.key);
         buf.writeInt(message.index);
         buf.writeInt(message.value);
