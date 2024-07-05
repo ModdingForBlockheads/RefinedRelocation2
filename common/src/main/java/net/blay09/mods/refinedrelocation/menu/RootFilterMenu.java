@@ -17,6 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
@@ -31,6 +32,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMenu {
+
+    public record Data(BlockPos pos, int rootFilterIndex) {
+        public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC = StreamCodec.composite(
+                BlockPos.STREAM_CODEC, Data::pos,
+                ByteBufCodecs.INT, Data::rootFilterIndex,
+                Data::new
+        );
+    }
 
     public static final String KEY_ROOT_FILTER = "RootFilter";
     public static final String KEY_OPEN_ADD_FILTER = "OpenAddFilter";

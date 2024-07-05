@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "Refined Relocation resources",
-        "pack_format": 8
-    }
+        "description": "${mod_name}",
+        "pack_format": ${pack_format_number}
+}
 }

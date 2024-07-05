@@ -5,6 +5,10 @@ import net.blay09.mods.refinedrelocation.api.container.IMenuMessage;
 import net.blay09.mods.refinedrelocation.api.container.IHasReturnCallback;
 import net.blay09.mods.refinedrelocation.api.container.ReturnCallback;
 import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
@@ -15,6 +19,15 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 public class ChecklistFilterMenu extends AbstractFilterMenu implements IHasReturnCallback {
+
+	public record Data(BlockPos pos, int rootFilterIndex, int filterIndex) {
+		public static final StreamCodec<RegistryFriendlyByteBuf, Data> STREAM_CODEC = StreamCodec.composite(
+				BlockPos.STREAM_CODEC, Data::pos,
+				ByteBufCodecs.INT, Data::rootFilterIndex,
+				ByteBufCodecs.INT, Data::filterIndex,
+				Data::new
+		);
+	}
 
 	public static final String KEY_CHECK = "Check";
 	public static final String KEY_UNCHECK = "Uncheck";

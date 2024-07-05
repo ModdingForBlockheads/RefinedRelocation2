@@ -8,8 +8,9 @@ import net.blay09.mods.refinedrelocation.menu.RootFilterMenu;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -111,7 +112,7 @@ public class RootFilter implements IRootFilter {
     @Nullable
     @Override
     public MenuProvider getConfiguration(Player player, BlockEntity blockEntity, int rootFilterIndex, int filterIndex) {
-        return new BalmMenuProvider<>() {
+        return new BalmMenuProvider<RootFilterMenu.Data>() {
             @Override
             public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
                 return new RootFilterMenu(i, playerInventory, blockEntity, rootFilterIndex);
@@ -123,9 +124,13 @@ public class RootFilter implements IRootFilter {
             }
 
             @Override
-            public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
-                buf.writeBlockPos(blockEntity.getBlockPos());
-                buf.writeByte(rootFilterIndex);
+            public RootFilterMenu.Data getScreenOpeningData(ServerPlayer serverPlayer) {
+                return new RootFilterMenu.Data(blockEntity.getBlockPos(), rootFilterIndex);
+            }
+
+            @Override
+            public StreamCodec<RegistryFriendlyByteBuf, RootFilterMenu.Data> getScreenStreamCodec() {
+                return RootFilterMenu.Data.STREAM_CODEC;
             }
         };
     }

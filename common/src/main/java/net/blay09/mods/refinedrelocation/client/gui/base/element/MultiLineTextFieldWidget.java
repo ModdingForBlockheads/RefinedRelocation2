@@ -201,8 +201,6 @@ public class MultiLineTextFieldWidget extends EditBox implements IScrollTarget {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-        setShiftPressed(Screen.hasShiftDown());
-
         boolean isInside = mouseX >= getX() && mouseX < (getX() + width) && mouseY >= getY() && mouseY < (getY() + height);
 
         if (isFocused() && isInside && mouseButton == 0) {
@@ -234,8 +232,6 @@ public class MultiLineTextFieldWidget extends EditBox implements IScrollTarget {
         if (!isFocused()) {
             return false;
         }
-
-        setShiftPressed(Screen.hasShiftDown());
 
         String keyName = GLFW.glfwGetKeyName(keyCode, scanCode);
         if ("z".equals(keyName) && Screen.hasControlDown() && !Screen.hasShiftDown() && !Screen.hasAltDown()) {
@@ -536,10 +532,6 @@ public class MultiLineTextFieldWidget extends EditBox implements IScrollTarget {
 
     private void setDisplayPos(int displayPos) {
         ((EditBoxAccessor) this).setDisplayPos(displayPos);
-    }
-
-    private void setShiftPressed(boolean shiftPressed) {
-        ((EditBoxAccessor) this).setShiftPressed(shiftPressed);
     }
 
     private int getMaxLength() {

@@ -8,8 +8,9 @@ import net.blay09.mods.refinedrelocation.api.filter.IFilter;
 import net.blay09.mods.refinedrelocation.client.gui.GuiTextures;
 import net.blay09.mods.refinedrelocation.menu.NameFilterMenu;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
@@ -126,19 +127,19 @@ public class NameFilter implements IFilter {
                     continue;
                 }
                 WILDCARD_MATCHER.reset(patternsSplit[i]);
-                StringBuffer sb = new StringBuffer();
+                final var stringBuffer = new StringBuilder();
                 while (WILDCARD_MATCHER.find()) {
                     if (WILDCARD_MATCHER.group(1) != null) {
-                        WILDCARD_MATCHER.appendReplacement(sb, ".*");
+                        WILDCARD_MATCHER.appendReplacement(stringBuffer, ".*");
                     } else {
-                        WILDCARD_MATCHER.appendReplacement(sb, "\\\\Q" + WILDCARD_MATCHER.group(0) + "\\\\E");
+                        WILDCARD_MATCHER.appendReplacement(stringBuffer, "\\\\Q" + WILDCARD_MATCHER.group(0) + "\\\\E");
                     }
                 }
-                WILDCARD_MATCHER.appendTail(sb);
+                WILDCARD_MATCHER.appendTail(stringBuffer);
                 try {
-                    cachedPatterns[i] = Pattern.compile(sb.toString());
+                    cachedPatterns[i] = Pattern.compile(stringBuffer.toString());
                 } catch (PatternSyntaxException e) {
-                    RefinedRelocation.logger.error("Caught an exception in the pattern compilation for the Name Filter. This should never happen, please report: {} => {}", patternsSplit[i], sb.toString());
+                    RefinedRelocation.logger.error("Caught an exception in the pattern compilation for the Name Filter. This should never happen, please report: {} => {}", patternsSplit[i], stringBuffer.toString());
                 }
             }
         }
@@ -180,7 +181,7 @@ public class NameFilter implements IFilter {
     @Nullable
     @Override
     public MenuProvider getConfiguration(Player player, BlockEntity blockEntity, int rootFilterIndex, int filterIndex) {
-        return new BalmMenuProvider<>() {
+        return new BalmMenuProvider<NameFilterMenu.Data>() {
             @Override
             public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
                 return new NameFilterMenu(i, playerInventory, blockEntity, rootFilterIndex, NameFilter.this);
@@ -192,10 +193,13 @@ public class NameFilter implements IFilter {
             }
 
             @Override
-            public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
-                buf.writeBlockPos(blockEntity.getBlockPos());
-                buf.writeByte(rootFilterIndex);
-                buf.writeByte(filterIndex);
+            public NameFilterMenu.Data getScreenOpeningData(ServerPlayer serverPlayer) {
+                return new NameFilterMenu.Data(blockEntity.getBlockPos(), rootFilterIndex, filterIndex);
+            }
+
+            @Override
+            public StreamCodec<RegistryFriendlyByteBuf, NameFilterMenu.Data> getScreenStreamCodec() {
+                return NameFilterMenu.Data.STREAM_CODEC;
             }
         };
     }

@@ -15,9 +15,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.MenuProvider;
@@ -269,7 +269,7 @@ public class PresetFilter implements IChecklistFilter {
     @Nullable
     @Override
     public MenuProvider getConfiguration(Player player, BlockEntity blockEntity, int rootFilterIndex, int filterIndex) {
-        return new BalmMenuProvider<>() {
+        return new BalmMenuProvider<ChecklistFilterMenu.Data>() {
             @Override
             public AbstractContainerMenu createMenu(int i, Inventory playerInventory, Player playerEntity) {
                 return new ChecklistFilterMenu(i, playerInventory, blockEntity, rootFilterIndex, PresetFilter.this);
@@ -281,10 +281,13 @@ public class PresetFilter implements IChecklistFilter {
             }
 
             @Override
-            public void writeScreenOpeningData(ServerPlayer player, FriendlyByteBuf buf) {
-                buf.writeBlockPos(blockEntity.getBlockPos());
-                buf.writeByte(rootFilterIndex);
-                buf.writeByte(filterIndex);
+            public ChecklistFilterMenu.Data getScreenOpeningData(ServerPlayer serverPlayer) {
+                return new ChecklistFilterMenu.Data(blockEntity.getBlockPos(), rootFilterIndex, filterIndex);
+            }
+
+            @Override
+            public StreamCodec<RegistryFriendlyByteBuf, ChecklistFilterMenu.Data> getScreenStreamCodec() {
+                return ChecklistFilterMenu.Data.STREAM_CODEC;
             }
         };
     }

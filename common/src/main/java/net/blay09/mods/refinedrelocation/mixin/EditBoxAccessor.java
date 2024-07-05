@@ -26,6 +26,4 @@ public interface EditBoxAccessor {
     @Accessor("maxLength")
     int getMaxLen(); // getMaxLength taken by private method
 
-    @Accessor
-    void setShiftPressed(boolean shiftPressed);
 }
