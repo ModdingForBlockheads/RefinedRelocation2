@@ -14,10 +14,10 @@ public class ModItems {
 
     public static DeferredObject<CreativeModeTab> creativeModeTab;
 
-    public static Item sortingUpgrade = new SortingUpgradeItem();
+    public static Item sortingUpgrade;
 
     public static void initialize(BalmItems items) {
-        items.registerItem(() -> sortingUpgrade, id("sorting_upgrade"));
+        items.registerItem(() -> sortingUpgrade = new SortingUpgradeItem(), id("sorting_upgrade"));
 
         creativeModeTab = items.registerCreativeModeTab(() -> new ItemStack(ModBlocks.sortingChests[SortingChestType.WOOD.ordinal()]),
                 id(RefinedRelocation.MOD_ID));

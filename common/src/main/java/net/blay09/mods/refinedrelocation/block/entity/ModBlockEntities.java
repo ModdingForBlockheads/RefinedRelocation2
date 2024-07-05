@@ -5,7 +5,6 @@ import net.blay09.mods.balm.api.block.BalmBlockEntities;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.SortingChestType;
 import net.blay09.mods.refinedrelocation.block.ModBlocks;
-import net.blay09.mods.refinedrelocation.block.SortingChestBlock;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -23,9 +22,9 @@ public class ModBlockEntities {
 
     public static void initialize(BalmBlockEntities blockEntities) {
         sortingChests = new ArrayList<>();
-        for (SortingChestBlock sortingChest : ModBlocks.sortingChests) {
-            SortingChestType chestType = sortingChest.getChestType();
-            DeferredObject<BlockEntityType<SortingChestBlockEntity>> deferredObject = blockEntities.registerBlockEntity(id(chestType.getRegistryName()), (pos, state) -> new SortingChestBlockEntity(sortingChest.getChestType(), pos, state), () -> new Block[]{sortingChest});
+        final var chestTypes = SortingChestType.values();
+        for (SortingChestType chestType : chestTypes) {
+            final var deferredObject = blockEntities.registerBlockEntity(id(chestType.getRegistryName()), (pos, state) -> new SortingChestBlockEntity(chestType, pos, state), () -> ModBlocks.sortingChests);
             sortingChests.add(deferredObject);
         }
 
