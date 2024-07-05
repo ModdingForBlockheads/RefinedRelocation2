@@ -26,10 +26,10 @@
       "net.blay09.mods.refinedrelocation.fabric.client.FabricRefinedRelocationClient"
     ],
     "modmenu": [
-      "net.blay09.mods.refinedrelocation.compat.ModMenuIntegration"
+      "net.blay09.mods.refinedrelocation.fabric.compat.ModMenuIntegration"
     ],
     "fabric-datagen": [
-      "net.blay09.mods.refinedrelocation.datagen.ModDataGenerator"
+      "net.blay09.mods.refinedrelocation.fabric.datagen.ModDataGenerator"
     ]
   },
   "mixins": [

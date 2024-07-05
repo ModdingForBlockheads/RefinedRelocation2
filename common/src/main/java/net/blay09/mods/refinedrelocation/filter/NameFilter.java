@@ -5,7 +5,7 @@ import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.client.IDrawable;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.client.gui.GuiTextures;
+import net.blay09.mods.refinedrelocation.fabric.client.gui.GuiTextures;
 import net.blay09.mods.refinedrelocation.menu.NameFilterMenu;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;

@@ -1,7 +1,7 @@
 package net.blay09.mods.refinedrelocation.network;
 
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
-import net.blay09.mods.refinedrelocation.client.FilterPreviewHandler;
+import net.blay09.mods.refinedrelocation.fabric.client.FilterPreviewHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
