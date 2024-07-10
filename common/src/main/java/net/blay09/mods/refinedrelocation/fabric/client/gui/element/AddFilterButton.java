@@ -35,7 +35,7 @@ public class AddFilterButton extends ImageButton implements ITooltipElement {
 
     @Override
     public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+        super.renderWidget(guiGraphics, mouseX, mouseY, partialTicks);
 
         if (isHovered) {
             guiGraphics.fill(getX(), getY(), getX() + width, getY() + height, 0xAAFFFFFF);
