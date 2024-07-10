@@ -1,5 +1,5 @@
 package net.blay09.mods.refinedrelocation.api.filter;
 
-public interface IMultiRootFilter {
+public interface MultiRootFilter {
     RootFilter getRootFilter(int index);
 }

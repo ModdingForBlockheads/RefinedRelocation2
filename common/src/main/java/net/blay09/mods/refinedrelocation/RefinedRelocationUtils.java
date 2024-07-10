@@ -1,7 +1,7 @@
 package net.blay09.mods.refinedrelocation;
 
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.MultiRootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.block.entity.IDroppableContainer;
 import net.blay09.mods.refinedrelocation.util.ItemUtils;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class RefinedRelocationUtils {
 
     public static Optional<RootFilter> getRootFilter(BlockEntity blockEntity, int rootFilterIndex) {
-        final var multiRootFilter = Balm.getProviders().getProvider(blockEntity, IMultiRootFilter.class);
+        final var multiRootFilter = Balm.getProviders().getProvider(blockEntity, MultiRootFilter.class);
         if (multiRootFilter != null) {
             final var foundRootFilter = multiRootFilter.getRootFilter(rootFilterIndex);
             if (foundRootFilter != null) {
@@ -25,7 +25,7 @@ public class RefinedRelocationUtils {
             }
         }
 
-        return rootFilterIndex == 0 ? Optional.of(Balm.getProviders().getProvider(blockEntity, RootFilter.class)) : Optional.empty();
+        return rootFilterIndex == 0 ? Optional.ofNullable(Balm.getProviders().getProvider(blockEntity, RootFilter.class)) : Optional.empty();
     }
 
     public static void dropItemHandler(Level level, BlockPos pos) {

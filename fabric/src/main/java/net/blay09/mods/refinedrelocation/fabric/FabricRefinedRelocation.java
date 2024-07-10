@@ -6,7 +6,7 @@ import net.blay09.mods.balm.api.EmptyLoadContext;
 import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.balm.fabric.provider.FabricBalmProviders;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
-import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.MultiRootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
 import net.blay09.mods.refinedrelocation.block.entity.ModBlockEntities;
@@ -25,7 +25,7 @@ public class FabricRefinedRelocation implements ModInitializer {
                 ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
         registerProvider("root_filter", RootFilter.class, ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
         registerProvider("multi_root_filter",
-                IMultiRootFilter.class,
+                MultiRootFilter.class,
                 ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
     }
 
@@ -38,6 +38,8 @@ public class FabricRefinedRelocation implements ModInitializer {
 
     private <T> void registerLookup(ResourceLocation identifier, Class<T> clazz, BlockEntityType<?>... blockEntities) {
         var lookup = BlockApiLookup.get(identifier, clazz, Void.class);
-        lookup.registerForBlockEntities((blockEntity, context) -> ((BalmBlockEntity) blockEntity).getProvider(clazz), blockEntities);
+        lookup.registerForBlockEntities((blockEntity, context) -> {
+            return ((BalmBlockEntity) blockEntity).getProvider(clazz);
+        }, blockEntities);
     }
 }

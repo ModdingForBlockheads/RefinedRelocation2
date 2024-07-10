@@ -1,7 +1,6 @@
 package net.blay09.mods.refinedrelocation.block.entity;
 
 
-import com.google.common.collect.Lists;
 import net.blay09.mods.balm.api.block.entity.OnLoadHandler;
 import net.blay09.mods.balm.api.container.BalmContainerProvider;
 import net.blay09.mods.balm.api.container.ContainerUtils;
@@ -157,7 +156,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
 
     @Override
     public List<BalmProvider<?>> getProviders() {
-        return Lists.newArrayList(
+        return List.of(
                 new BalmProvider<>(SortingGridMember.class, sortingInventory),
                 new BalmProvider<>(SortingInventory.class, sortingInventory),
                 new BalmProvider<>(RootFilter.class, rootFilter),

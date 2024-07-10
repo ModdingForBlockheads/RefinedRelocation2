@@ -1,6 +1,6 @@
 package net.blay09.mods.refinedrelocation.api;
 
-import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.MultiRootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
@@ -14,7 +14,7 @@ public class Capabilities {
     public static Capability<RootFilter> ROOT_FILTER = CapabilityManager.get(new CapabilityToken<>() {
     });
 
-    public static Capability<IMultiRootFilter> MULTI_ROOT_FILTER = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<MultiRootFilter> MULTI_ROOT_FILTER = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     public static Capability<SimpleFilter> SIMPLE_FILTER = CapabilityManager.get(new CapabilityToken<>() {
