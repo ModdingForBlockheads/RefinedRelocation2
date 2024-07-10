@@ -120,7 +120,7 @@ public class RootFilterImpl implements RootFilter {
 
             @Override
             public Component getDisplayName() {
-                return Component.translatable("refinedrelocation:root_filter");
+                return Component.translatable("menu.refinedrelocation.root_filter");
             }
 
             @Override

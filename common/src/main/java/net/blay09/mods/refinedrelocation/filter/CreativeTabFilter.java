@@ -136,7 +136,7 @@ public class CreativeTabFilter implements ChecklistFilter {
 
             @Override
             public Component getDisplayName() {
-                return Component.translatable("container.refinedrelocation.creative_tab_filter");
+                return Component.translatable("menu.refinedrelocation.creative_tab_filter");
             }
 
             @Override

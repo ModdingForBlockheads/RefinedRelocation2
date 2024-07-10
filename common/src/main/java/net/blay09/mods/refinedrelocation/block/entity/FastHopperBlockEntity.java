@@ -179,7 +179,7 @@ public class FastHopperBlockEntity extends BalmBlockEntity implements BalmMenuPr
     }
 
     public String getUnlocalizedName() {
-        return "container.refinedrelocation:fast_hopper";
+        return "container.refinedrelocation.fast_hopper";
     }
 
     @Override

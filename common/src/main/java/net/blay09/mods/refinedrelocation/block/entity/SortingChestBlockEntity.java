@@ -165,7 +165,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
     }
 
     public String getUnlocalizedName() {
-        return "container.refinedrelocation:" + chestType.getRegistryName();
+        return "container.refinedrelocation." + chestType.getRegistryName();
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.filter.MultiRootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.block.entity.ModBlockEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
@@ -22,6 +23,9 @@ public class FabricRefinedRelocation implements ModInitializer {
 
         registerProvider("sorting_grid_member",
                 SortingGridMember.class,
+                ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
+        registerProvider("sorting_inventory",
+                SortingInventory.class,
                 ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
         registerProvider("root_filter", RootFilter.class, ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
         registerProvider("multi_root_filter",

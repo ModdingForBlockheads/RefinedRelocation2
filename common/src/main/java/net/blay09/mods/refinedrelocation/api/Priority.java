@@ -9,11 +9,11 @@ public final class Priority {
 	public static final int HIGHEST = 999;
 
 	public enum Enum {
-		LOWEST(Priority.LOWEST, "gui.refinedrelocation:root_filter.priority_lowest", "--"),
-		LOW(Priority.LOW, "gui.refinedrelocation:root_filter.priority_low", "-"),
-		NORMAL(Priority.NORMAL, "gui.refinedrelocation:root_filter.priority_normal", "0"),
-		HIGH(Priority.HIGH, "gui.refinedrelocation:root_filter.priority_high", "+"),
-		HIGHEST(Priority.HIGHEST, "gui.refinedrelocation:root_filter.priority_highest", "++");
+		LOWEST(Priority.LOWEST, "gui.refinedrelocation.root_filter.priority_lowest", "--"),
+		LOW(Priority.LOW, "gui.refinedrelocation.root_filter.priority_low", "-"),
+		NORMAL(Priority.NORMAL, "gui.refinedrelocation.root_filter.priority_normal", "0"),
+		HIGH(Priority.HIGH, "gui.refinedrelocation.root_filter.priority_high", "+"),
+		HIGHEST(Priority.HIGHEST, "gui.refinedrelocation.root_filter.priority_highest", "++");
 
 		private final int priority;
 		private final String langKey;

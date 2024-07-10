@@ -155,7 +155,7 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
                 final var menuProvider = new BalmMenuProvider<AddFilterMenu.Data>() {
                     @Override
                     public Component getDisplayName() {
-                        return Component.translatable("container.refinedrelocation:add_filter");
+                        return Component.translatable("menu.refinedrelocation.add_filter");
                     }
 
                     @Override

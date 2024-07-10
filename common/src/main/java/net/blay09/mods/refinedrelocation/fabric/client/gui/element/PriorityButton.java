@@ -87,21 +87,21 @@ public class PriorityButton extends Button implements ITooltipElement, ITickable
             }
         }
 
-        setMessage(currentIndex != -1 ? Component.translatable(values[currentIndex].getLangKey()) : Component.translatable("gui.refinedrelocation:root_filter.priority_custom", sortingInventory.getPriority()));
+        setMessage(currentIndex != -1 ? Component.translatable(values[currentIndex].getLangKey()) : Component.translatable("gui.refinedrelocation.root_filter.priority_custom", sortingInventory.getPriority()));
     }
 
     @Override
     public void addTooltip(List<Component> list) {
         if (!Screen.hasShiftDown()) {
-            list.add(formattedTranslation(ChatFormatting.GREEN, "gui.refinedrelocation:root_filter.priority_increase"));
-            list.add(formattedTranslation(ChatFormatting.RED, "gui.refinedrelocation:root_filter.priority_decrease"));
+            list.add(formattedTranslation(ChatFormatting.GREEN, "gui.refinedrelocation.root_filter.priority_increase"));
+            list.add(formattedTranslation(ChatFormatting.RED, "gui.refinedrelocation.root_filter.priority_decrease"));
         } else {
-            list.add(formattedTranslation(ChatFormatting.GREEN, "gui.refinedrelocation:root_filter.priority_increase10"));
-            list.add(formattedTranslation(ChatFormatting.RED, "gui.refinedrelocation:root_filter.priority_decrease10"));
+            list.add(formattedTranslation(ChatFormatting.GREEN, "gui.refinedrelocation.root_filter.priority_increase10"));
+            list.add(formattedTranslation(ChatFormatting.RED, "gui.refinedrelocation.root_filter.priority_decrease10"));
         }
         if (currentIndex != -1) {
             list.add(Component.empty());
-            list.add(Component.translatable("gui.refinedrelocation:root_filter.priority_tooltip", values[currentIndex].getPriority()));
+            list.add(Component.translatable("gui.refinedrelocation.root_filter.priority_tooltip", values[currentIndex].getPriority()));
         }
     }
 

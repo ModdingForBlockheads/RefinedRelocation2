@@ -64,14 +64,14 @@ public class FilterSlotButton extends Button implements ITooltipElement {
     public void addTooltip(List<Component> list) {
         IFilter filter = rootFilter.getFilter(index);
         if (filter == null) {
-            list.add(formattedTranslation(ChatFormatting.GRAY, "gui.refinedrelocation:root_filter.no_filter_set"));
-            list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation:root_filter.click_to_add_filter"));
+            list.add(formattedTranslation(ChatFormatting.GRAY, "gui.refinedrelocation.root_filter.no_filter_set"));
+            list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation.root_filter.click_to_add_filter"));
         } else {
             list.add(Component.translatable(filter.getLangKey()));
             if (filter.hasConfiguration()) {
-                list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation:root_filter.click_to_configure"));
+                list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation.root_filter.click_to_configure"));
             } else {
-                list.add(formattedTranslation(ChatFormatting.GRAY, "gui.refinedrelocation:root_filter.not_configurable"));
+                list.add(formattedTranslation(ChatFormatting.GRAY, "gui.refinedrelocation.root_filter.not_configurable"));
             }
         }
     }

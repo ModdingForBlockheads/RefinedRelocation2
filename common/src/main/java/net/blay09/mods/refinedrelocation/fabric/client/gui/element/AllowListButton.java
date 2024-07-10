@@ -54,8 +54,8 @@ public class AllowListButton extends ImageButton implements ITickableElement, IT
     @Override
     public void addTooltip(List<Component> list) {
         boolean nowBlacklist = parentGui.getMenu().getRootFilter().isBlacklist(parentSlot.getFilterIndex());
-        list.add(formattedTranslation(ChatFormatting.WHITE, nowBlacklist ? "gui.refinedrelocation:root_filter.blacklist" : "gui.refinedrelocation:root_filter.whitelist"));
-        list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation:root_filter.click_to_toggle"));
+        list.add(formattedTranslation(ChatFormatting.WHITE, nowBlacklist ? "gui.refinedrelocation.root_filter.blacklist" : "gui.refinedrelocation.root_filter.whitelist"));
+        list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation.root_filter.click_to_toggle"));
     }
 
 }

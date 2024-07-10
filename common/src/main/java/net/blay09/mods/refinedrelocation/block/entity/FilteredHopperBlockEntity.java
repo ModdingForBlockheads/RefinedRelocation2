@@ -33,7 +33,7 @@ public class FilteredHopperBlockEntity extends FastHopperBlockEntity {
 
     @Override
     public String getUnlocalizedName() {
-        return "container.refinedrelocation:filtered_hopper";
+        return "container.refinedrelocation.filtered_hopper";
     }
 
     @Override

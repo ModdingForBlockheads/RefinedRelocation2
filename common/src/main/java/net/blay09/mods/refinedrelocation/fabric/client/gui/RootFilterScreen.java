@@ -72,7 +72,7 @@ public class RootFilterScreen extends FilterScreen<RootFilterMenu> implements IF
             addRenderableWidget(new LabelWidget(font,
                     leftPos + 10,
                     topPos + 65,
-                    Component.translatable("gui.refinedrelocation:root_filter.priority_label"),
+                    Component.translatable("gui.refinedrelocation.root_filter.priority_label"),
                     0x404040));
             addRenderableWidget(new PriorityButton(leftPos + 10, topPos + 80, 100, 20, menu.getSortingInventory()));
         }
@@ -116,8 +116,8 @@ public class RootFilterScreen extends FilterScreen<RootFilterMenu> implements IF
             displayName = nameable.getDisplayName();
         }
 
-        final var title = displayName != null ? Component.translatable("container.refinedrelocation:root_filter_with_name",
-                displayName) : Component.translatable("container.refinedrelocation:root_filter");
+        final var title = displayName != null ? Component.translatable("menu.refinedrelocation.root_filter_with_name",
+                displayName) : Component.translatable("menu.refinedrelocation.root_filter");
         guiGraphics.drawString(font, title.getVisualOrderText(), 8, 6, 4210752);
         guiGraphics.drawString(font, I18n.get("container.inventory"), 8, imageHeight - 96 + 2, 4210752);
     }

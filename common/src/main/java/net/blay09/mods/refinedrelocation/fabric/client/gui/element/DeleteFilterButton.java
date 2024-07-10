@@ -60,11 +60,11 @@ public class DeleteFilterButton extends ImageButton implements ITickableElement,
 
     @Override
     public void addTooltip(List<Component> list) {
-        list.add(formattedTranslation(ChatFormatting.RED, "gui.refinedrelocation:root_filter.delete_filter"));
+        list.add(formattedTranslation(ChatFormatting.RED, "gui.refinedrelocation.root_filter.delete_filter"));
         if (!active) {
-            list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation:root_filter.hold_shift_to_delete"));
+            list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation.root_filter.hold_shift_to_delete"));
         } else {
-            list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation:root_filter.delete_cannot_be_undone"));
+            list.add(formattedTranslation(ChatFormatting.YELLOW, "gui.refinedrelocation.root_filter.delete_cannot_be_undone"));
         }
     }
 
