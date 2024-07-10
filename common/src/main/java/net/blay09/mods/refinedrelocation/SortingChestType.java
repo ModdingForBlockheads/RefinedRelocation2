@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import java.util.Locale;
 
 public enum SortingChestType implements StringRepresentable {
-    WOOD(27, 9, "sorting_chest", "normal", ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png"), 176, 168, 256, 256),
+    WOOD(27, 9, "sorting_chest", "oak", ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png"), 176, 168, 256, 256),
     IRON(54, 9, "sorting_iron_chest", "iron", ResourceLocation.withDefaultNamespace("textures/gui/container/generic_54.png"), 176, 222, 256, 256),
     GOLD(84, 12, "sorting_gold_chest", "gold", ResourceLocation.fromNamespaceAndPath(RefinedRelocation.MOD_ID, "textures/gui/gold_chest.png"), 230, 240, 230, 240),
     DIAMOND(112, 16, "sorting_diamond_chest", "diamond", ResourceLocation.fromNamespaceAndPath(RefinedRelocation.MOD_ID, "textures/gui/diamond_chest.png"), 302, 240, 302, 240);
@@ -51,7 +51,7 @@ public enum SortingChestType implements StringRepresentable {
     }
 
     public ResourceLocation getTextureLocation() {
-        return ResourceLocation.fromNamespaceAndPath(RefinedRelocation.MOD_ID, "entity/sorting_chest/" + texture);
+        return ResourceLocation.withDefaultNamespace("entity/sorting_chest/" + texture);
     }
 
     public Material getMaterial() {

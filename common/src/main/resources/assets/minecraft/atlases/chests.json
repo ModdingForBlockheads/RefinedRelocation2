@@ -2,8 +2,8 @@
   "sources": [
     {
       "type": "directory",
-      "source": "sorting_chests",
-      "prefix": "sorting_chests/"
+      "source": "entity/sorting_chest",
+      "prefix": "entity/sorting_chest/"
     }
   ]
 }
