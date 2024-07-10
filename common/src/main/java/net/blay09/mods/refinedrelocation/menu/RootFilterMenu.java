@@ -8,13 +8,12 @@ import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.container.IMenuMessage;
 import net.blay09.mods.refinedrelocation.api.container.ReturnCallback;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
-import net.blay09.mods.refinedrelocation.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.filter.RootFilterImpl;
 import net.blay09.mods.refinedrelocation.grid.SortingInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -51,7 +50,7 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
 
     private final Player player;
     private final BlockEntity blockEntity;
-    private final IRootFilter rootFilter;
+    private final RootFilter rootFilter;
     private final int rootFilterIndex;
 
     private ReturnCallback returnCallback;
@@ -66,7 +65,7 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
 
         this.player = playerInventory.player;
         this.blockEntity = blockEntity;
-        this.rootFilter = RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).orElseGet(RootFilter::new);
+        this.rootFilter = RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).orElseGet(RootFilterImpl::new);
         this.rootFilterIndex = rootFilterIndex;
         sortingInventory = Balm.getProviders().getProvider(blockEntity, ISortingInventory.class);
         if (sortingInventory == null) {
@@ -243,7 +242,7 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
     }
 
     @Override
-    public IRootFilter getRootFilter() {
+    public RootFilter getRootFilter() {
         return rootFilter;
     }
 

@@ -1,10 +1,9 @@
 package net.blay09.mods.refinedrelocation.fabric.client.gui.element;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.client.IDrawable;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.GuiTextures;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.RootFilterScreen;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.ITooltipElement;
@@ -22,10 +21,10 @@ public class FilterSlotButton extends Button implements ITooltipElement {
 
     private final RootFilterScreen parentGui;
     private final IDrawable texture;
-    private final IRootFilter rootFilter;
+    private final RootFilter rootFilter;
     private final int index;
 
-    public FilterSlotButton(int x, int y, RootFilterScreen parentGui, IRootFilter rootFilter, int index) {
+    public FilterSlotButton(int x, int y, RootFilterScreen parentGui, RootFilter rootFilter, int index) {
         super(x, y, 24, 24, Component.empty(), it -> {
         }, DEFAULT_NARRATION);
         this.parentGui = parentGui;

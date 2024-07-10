@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface ISimpleFilter {
+public interface SimpleFilter {
     @Deprecated
     default boolean passes(BlockEntity blockEntity, ItemStack itemStack) {
         return passes(blockEntity, itemStack, itemStack);

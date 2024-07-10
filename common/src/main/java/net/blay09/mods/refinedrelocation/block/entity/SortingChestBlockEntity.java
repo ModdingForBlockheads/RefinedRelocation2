@@ -10,11 +10,11 @@ import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.balm.api.provider.BalmProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.refinedrelocation.SortingChestType;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
-import net.blay09.mods.refinedrelocation.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.filter.RootFilterImpl;
 import net.blay09.mods.refinedrelocation.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.menu.SortingChestMenu;
 import net.minecraft.core.BlockPos;
@@ -84,7 +84,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
     private final DefaultContainer container;
 
     private final ISortingInventory sortingInventory = new SortingInventory(this);
-    private final IRootFilter rootFilter = new RootFilter();
+    private final RootFilter rootFilter = new RootFilterImpl();
     private final SortingChestType chestType;
 
     private Component customName;
@@ -160,8 +160,8 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
         return Lists.newArrayList(
                 new BalmProvider<>(ISortingGridMember.class, sortingInventory),
                 new BalmProvider<>(ISortingInventory.class, sortingInventory),
-                new BalmProvider<>(IRootFilter.class, rootFilter),
-                new BalmProvider<>(ISimpleFilter.class, rootFilter)
+                new BalmProvider<>(RootFilter.class, rootFilter),
+                new BalmProvider<>(SimpleFilter.class, rootFilter)
         );
     }
 

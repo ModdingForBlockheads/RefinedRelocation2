@@ -1,6 +1,6 @@
 package net.blay09.mods.refinedrelocation.api.grid;
 
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ public interface ISortingInventory extends ISortingGridMember {
 
     @Nullable Container getContainer();
 
-    ISimpleFilter getFilter();
+    SimpleFilter getFilter();
 
     void setPriority(int priority);
 

@@ -6,7 +6,7 @@ import net.blay09.mods.balm.api.container.ContainerUtils;
 import net.blay09.mods.refinedrelocation.api.InternalMethods;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
@@ -18,11 +18,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -108,7 +106,7 @@ public class InternalMethodsImpl implements InternalMethods {
         if (sortingGrid != null) {
             for (ISortingGridMember member : sortingGrid.getMembers()) {
                 if (member instanceof ISortingInventory memberInventory) {
-                    ISimpleFilter filter = memberInventory.getFilter();
+                    SimpleFilter filter = memberInventory.getFilter();
                     boolean passes = filter.passes(memberInventory.getBlockEntity(), restStack, itemStack);
                     if (passes) {
                         passingList.add(memberInventory);
@@ -219,14 +217,14 @@ public class InternalMethodsImpl implements InternalMethods {
             Balm.getNetworking().sendToServer(new RequestFilterScreenMessage(blockEntity.getBlockPos(), rootFilterIndex));
         } else {
             RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).ifPresent(rootFilter -> {
-                MenuProvider filterConfig = rootFilter.getConfiguration(player, blockEntity, rootFilterIndex, 0);
+                final var filterConfig = rootFilter.getConfiguration(player, blockEntity, rootFilterIndex, 0);
                 Balm.getNetworking().openGui(player, filterConfig);
             });
         }
     }
 
     @Override
-    public void updateFilterPreview(Player player, BlockEntity blockEntity, ISimpleFilter filter) {
+    public void updateFilterPreview(Player player, BlockEntity blockEntity, SimpleFilter filter) {
         if (!player.level().isClientSide) {
             byte[] slotStates = new byte[FilterPreviewMessage.INVENTORY_SLOT_COUNT];
             for (int i = 0; i < slotStates.length; i++) {

@@ -3,7 +3,7 @@ package net.blay09.mods.refinedrelocation.fabric.client.gui.element;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.client.IDrawable;
-import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.blay09.mods.refinedrelocation.api.filter.ChecklistFilter;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.GuiTextures;
 import net.blay09.mods.refinedrelocation.menu.ChecklistFilterMenu;
 import net.minecraft.client.Minecraft;
@@ -15,13 +15,13 @@ import net.minecraft.network.chat.Component;
 
 public class ChecklistEntryButton extends Button {
 
-    private final IChecklistFilter filter;
+    private final ChecklistFilter filter;
     private final IDrawable texture;
     private final IDrawable textureChecked;
 
     private int currentOption = -1;
 
-    public ChecklistEntryButton(int x, int y, IChecklistFilter filter) {
+    public ChecklistEntryButton(int x, int y, ChecklistFilter filter) {
         super(x, y, 151, 11, Component.empty(), it -> {
         }, DEFAULT_NARRATION);
         this.filter = filter;

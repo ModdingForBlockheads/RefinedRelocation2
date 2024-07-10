@@ -1,7 +1,7 @@
 package net.blay09.mods.refinedrelocation.menu;
 
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 
 public interface IRootFilterMenu {
-    IRootFilter getRootFilter();
+    RootFilter getRootFilter();
 }

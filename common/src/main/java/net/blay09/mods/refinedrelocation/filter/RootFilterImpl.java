@@ -3,7 +3,7 @@ package net.blay09.mods.refinedrelocation.filter;
 import com.google.common.collect.Lists;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.menu.RootFilterMenu;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
-public class RootFilter implements IRootFilter {
+public class RootFilterImpl implements RootFilter {
 
     private final List<SubFilterWrapper> filterList = Lists.newArrayList();
 

@@ -4,6 +4,6 @@ import net.minecraft.world.Container;
 
 import java.util.Collection;
 
-public interface IDroppableItemHandler {
-    Collection<Container> getDroppedItemHandlers();
+public interface IDroppableContainer {
+    Collection<Container> getDroppedContainers();
 }

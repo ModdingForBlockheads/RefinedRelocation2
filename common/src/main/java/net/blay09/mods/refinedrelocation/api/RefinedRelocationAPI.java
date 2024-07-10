@@ -1,7 +1,7 @@
 package net.blay09.mods.refinedrelocation.api;
 
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.minecraft.nbt.CompoundTag;
@@ -66,7 +66,7 @@ public class RefinedRelocationAPI {
         internalMethods.syncContainerValue(key, value, listeners);
     }
 
-    public static void updateFilterPreview(Player player, BlockEntity blockEntity, ISimpleFilter filter) {
+    public static void updateFilterPreview(Player player, BlockEntity blockEntity, SimpleFilter filter) {
         internalMethods.updateFilterPreview(player, blockEntity, filter);
     }
 

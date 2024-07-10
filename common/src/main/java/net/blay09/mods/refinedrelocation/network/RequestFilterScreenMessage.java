@@ -40,7 +40,7 @@ public class RequestFilterScreenMessage implements CustomPacketPayload {
     }
 
     public static void handle(ServerPlayer player, RequestFilterScreenMessage message) {
-        BlockEntity blockEntity = player.level().getBlockEntity(message.pos);
+        final var blockEntity = player.level().getBlockEntity(message.pos);
         if (blockEntity != null) {
             RefinedRelocationAPI.openRootFilterGui(player, blockEntity, message.rootFilterIndex);
         }

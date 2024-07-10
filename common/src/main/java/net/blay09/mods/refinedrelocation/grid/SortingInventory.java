@@ -3,8 +3,8 @@ package net.blay09.mods.refinedrelocation.grid;
 import com.google.common.collect.Lists;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.minecraft.nbt.CompoundTag;
@@ -17,7 +17,7 @@ import java.util.LinkedList;
 public class SortingInventory extends SortingGridMember implements ISortingInventory {
 
     private final LinkedList<SortingStack> sortingStackList = Lists.newLinkedList();
-    private ISimpleFilter filter;
+    private SimpleFilter filter;
     private int priority;
 
     public SortingInventory(BlockEntity blockEntity) {
@@ -40,14 +40,14 @@ public class SortingInventory extends SortingGridMember implements ISortingInven
     }
 
     @Override
-    public ISimpleFilter getFilter() {
+    public SimpleFilter getFilter() {
         return filter;
     }
 
     @Override
     protected void onLoad() {
         super.onLoad();
-        filter = Balm.getProviders().getProvider(getBlockEntity(), IRootFilter.class);
+        filter = Balm.getProviders().getProvider(getBlockEntity(), RootFilter.class);
     }
 
     @Override

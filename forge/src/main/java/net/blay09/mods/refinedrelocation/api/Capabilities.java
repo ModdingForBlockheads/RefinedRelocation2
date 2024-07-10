@@ -1,8 +1,8 @@
 package net.blay09.mods.refinedrelocation.api;
 
 import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.minecraftforge.common.capabilities.Capability;
@@ -11,13 +11,13 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 
 public class Capabilities {
 
-    public static Capability<IRootFilter> ROOT_FILTER = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<RootFilter> ROOT_FILTER = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     public static Capability<IMultiRootFilter> MULTI_ROOT_FILTER = CapabilityManager.get(new CapabilityToken<>() {
     });
 
-    public static Capability<ISimpleFilter> SIMPLE_FILTER = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<SimpleFilter> SIMPLE_FILTER = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     /**

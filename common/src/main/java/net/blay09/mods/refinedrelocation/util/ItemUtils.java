@@ -12,7 +12,7 @@ public class ItemUtils {
 
 	private static final Random rand = new Random();
 
-	public static void dropItemHandlerItems(Level level, BlockPos pos, Container container) {
+	public static void dropContainerItems(Level level, BlockPos pos, Container container) {
 		for (int i = 0; i < container.getContainerSize(); i++) {
 			ItemStack itemStack = container.getItem(i);
 			if (!itemStack.isEmpty()) {

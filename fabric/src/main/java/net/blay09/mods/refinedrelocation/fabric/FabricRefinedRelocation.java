@@ -7,7 +7,7 @@ import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.balm.fabric.provider.FabricBalmProviders;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.block.entity.ModBlockEntities;
 import net.fabricmc.api.ModInitializer;
@@ -21,7 +21,7 @@ public class FabricRefinedRelocation implements ModInitializer {
         Balm.initialize(RefinedRelocation.MOD_ID, EmptyLoadContext.INSTANCE, RefinedRelocation::initialize);
 
         registerProvider("sorting_grid_member", ISortingGridMember.class, ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
-        registerProvider("root_filter", IRootFilter.class, ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
+        registerProvider("root_filter", RootFilter.class, ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
         registerProvider("multi_root_filter", IMultiRootFilter.class, ModBlockEntities.sortingChests.stream().map(DeferredObject::get).toArray(BlockEntityType[]::new));
     }
 

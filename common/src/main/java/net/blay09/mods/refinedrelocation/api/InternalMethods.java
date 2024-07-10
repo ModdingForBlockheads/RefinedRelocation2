@@ -1,7 +1,7 @@
 package net.blay09.mods.refinedrelocation.api;
 
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.minecraft.nbt.CompoundTag;
@@ -38,7 +38,7 @@ public interface InternalMethods {
 
     void openRootFilterGui(Player player, BlockEntity blockEntity, int rootFilterIndex);
 
-    void updateFilterPreview(Player player, BlockEntity blockEntity, ISimpleFilter filter);
+    void updateFilterPreview(Player player, BlockEntity blockEntity, SimpleFilter filter);
 
     void returnToParentContainer();
 }

@@ -2,7 +2,7 @@ package net.blay09.mods.refinedrelocation.api.filter;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface IRootFilter extends ISimpleFilter {
+public interface RootFilter extends SimpleFilter {
     int getFilterCount();
 
     @Nullable

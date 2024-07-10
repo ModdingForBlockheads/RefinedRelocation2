@@ -5,12 +5,12 @@ import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.block.entity.OnLoadHandler;
 import net.blay09.mods.balm.api.provider.BalmProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.config.RefinedRelocationConfig;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
-import net.blay09.mods.refinedrelocation.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.filter.RootFilterImpl;
 import net.blay09.mods.refinedrelocation.grid.SortingInventoryDelegate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,10 +27,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDroppableItemHandler, OnLoadHandler {
+public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDroppableContainer, OnLoadHandler {
 
     private final SortingInventoryDelegate sortingInventory = new SortingInventoryDelegate(this);
-    private final IRootFilter rootFilter = new RootFilter();
+    private final RootFilter rootFilter = new RootFilterImpl();
 
     private BlockEntity cachedConnectedTile;
     private ItemStack[] lastInventory;
@@ -123,15 +123,15 @@ public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDro
     @Override
     public List<BalmProvider<?>> getProviders() {
         return Lists.newArrayList(
-                new BalmProvider<>(IRootFilter.class, rootFilter),
-                new BalmProvider<>(ISimpleFilter.class, rootFilter),
+                new BalmProvider<>(RootFilter.class, rootFilter),
+                new BalmProvider<>(SimpleFilter.class, rootFilter),
                 new BalmProvider<>(ISortingInventory.class, sortingInventory),
                 new BalmProvider<>(ISortingGridMember.class, sortingInventory)
         );
     }
 
     @Override
-    public Collection<Container> getDroppedItemHandlers() {
+    public Collection<Container> getDroppedContainers() {
         // Do not drop the connected inventory's items.
         return Collections.emptyList();
     }

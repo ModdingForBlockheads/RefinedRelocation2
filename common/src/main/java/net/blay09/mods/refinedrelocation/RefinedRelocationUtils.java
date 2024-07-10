@@ -2,8 +2,8 @@ package net.blay09.mods.refinedrelocation;
 
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
-import net.blay09.mods.refinedrelocation.block.entity.IDroppableItemHandler;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.block.entity.IDroppableContainer;
 import net.blay09.mods.refinedrelocation.util.ItemUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
@@ -16,37 +16,37 @@ import java.util.Optional;
 
 public class RefinedRelocationUtils {
 
-    public static Optional<IRootFilter> getRootFilter(BlockEntity tileEntity, int rootFilterIndex) {
-        IMultiRootFilter multiRootFilter = Balm.getProviders().getProvider(tileEntity, IMultiRootFilter.class);
+    public static Optional<RootFilter> getRootFilter(BlockEntity tileEntity, int rootFilterIndex) {
+        final var multiRootFilter = Balm.getProviders().getProvider(tileEntity, IMultiRootFilter.class);
         if (multiRootFilter != null) {
-            IRootFilter foundRootFilter = multiRootFilter.getRootFilter(rootFilterIndex);
+            final var foundRootFilter = multiRootFilter.getRootFilter(rootFilterIndex);
             if (foundRootFilter != null) {
                 return Optional.of(foundRootFilter);
             }
         }
 
-        return rootFilterIndex == 0 ? Optional.of(Balm.getProviders().getProvider(tileEntity, IRootFilter.class)) : Optional.empty();
+        return rootFilterIndex == 0 ? Optional.of(Balm.getProviders().getProvider(tileEntity, RootFilter.class)) : Optional.empty();
     }
 
     public static void dropItemHandler(Level level, BlockPos pos) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        final var blockEntity = level.getBlockEntity(pos);
         if (blockEntity != null) {
-            if (blockEntity instanceof IDroppableItemHandler) {
-                ((IDroppableItemHandler) blockEntity).getDroppedItemHandlers().forEach(itemHandler -> ItemUtils.dropItemHandlerItems(level, pos, itemHandler));
+            if (blockEntity instanceof IDroppableContainer droppableContainer) {
+                droppableContainer.getDroppedContainers().forEach(container -> ItemUtils.dropContainerItems(level, pos, container));
             } else {
-                Container container = Balm.getProviders().getProvider(blockEntity, Container.class);
+                final var container = Balm.getProviders().getProvider(blockEntity, Container.class);
                 if (container != null) {
-                    ItemUtils.dropItemHandlerItems(level, pos, container);
+                    ItemUtils.dropContainerItems(level, pos, container);
                 }
             }
         }
     }
 
     public static int getComparatorInputOverride(BlockState state, Level level, BlockPos pos) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
+        final var blockEntity = level.getBlockEntity(pos);
         if (blockEntity != null) {
-            Container container = Balm.getProviders().getProvider(blockEntity, Container.class);
-            if(container != null) {
+            final var container = Balm.getProviders().getProvider(blockEntity, Container.class);
+            if (container != null) {
                 return AbstractContainerMenu.getRedstoneSignalFromContainer(container);
             }
             return 0;

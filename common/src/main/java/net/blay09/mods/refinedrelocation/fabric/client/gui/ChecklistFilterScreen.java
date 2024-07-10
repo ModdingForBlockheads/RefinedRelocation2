@@ -3,7 +3,7 @@ package net.blay09.mods.refinedrelocation.fabric.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.client.IFilterPreviewScreen;
-import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.blay09.mods.refinedrelocation.api.filter.ChecklistFilter;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.element.ScrollBarWidget;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.element.ScrollPaneWidget;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.element.IScrollTarget;
@@ -19,7 +19,7 @@ public class ChecklistFilterScreen extends FilterScreen<ChecklistFilterMenu> imp
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(RefinedRelocation.MOD_ID, "textures/gui/checklist_filter.png");
 
-    private final IChecklistFilter filter;
+    private final ChecklistFilter filter;
     private final ChecklistEntryButton[] entries = new ChecklistEntryButton[7];
 
     private int currentOffset;

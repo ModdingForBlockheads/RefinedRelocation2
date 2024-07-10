@@ -5,9 +5,9 @@ import net.blay09.mods.refinedrelocation.RefinedRelocationUtils;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.container.IMenuMessage;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.filter.FilterRegistry;
-import net.blay09.mods.refinedrelocation.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.filter.RootFilterImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -33,7 +33,7 @@ public class AddFilterMenu extends AbstractBaseMenu implements IRootFilterMenu {
 
     private final BlockEntity tileEntity;
     private final Player player;
-    private final IRootFilter rootFilter;
+    private final RootFilter rootFilter;
     private final int rootFilterIndex;
 
     public AddFilterMenu(int windowId, Inventory playerInventory, BlockEntity blockEntity, int rootFilterIndex) {
@@ -45,7 +45,7 @@ public class AddFilterMenu extends AbstractBaseMenu implements IRootFilterMenu {
         addPlayerInventory(playerInventory, 8, 128);
 
         this.rootFilterIndex = rootFilterIndex;
-        this.rootFilter = RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).orElseGet(RootFilter::new);
+        this.rootFilter = RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).orElseGet(RootFilterImpl::new);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class AddFilterMenu extends AbstractBaseMenu implements IRootFilterMenu {
     }
 
     @Override
-    public IRootFilter getRootFilter() {
+    public RootFilter getRootFilter() {
         return rootFilter;
     }
 }

@@ -3,7 +3,7 @@ package net.blay09.mods.refinedrelocation.filter;
 import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.client.IDrawable;
-import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.blay09.mods.refinedrelocation.api.filter.ChecklistFilter;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.GuiTextures;
 import net.blay09.mods.refinedrelocation.menu.ChecklistFilterMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CreativeTabFilter implements IChecklistFilter {
+public class CreativeTabFilter implements ChecklistFilter {
 
     public static final String ID = RefinedRelocation.MOD_ID + ":creative_tab_filter";
 

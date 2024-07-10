@@ -5,8 +5,8 @@ import net.blay09.mods.balm.api.EmptyLoadContext;
 import net.blay09.mods.balm.api.client.BalmClient;
 import net.blay09.mods.refinedrelocation.api.ISortingUpgradable;
 import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
-import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
+import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
+import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.blay09.mods.refinedrelocation.fabric.client.RefinedRelocationClient;
@@ -27,9 +27,9 @@ public class ForgeRefinedRelocation {
     }
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(IRootFilter.class);
+        event.register(RootFilter.class);
         event.register(IMultiRootFilter.class);
-        event.register(ISimpleFilter.class);
+        event.register(SimpleFilter.class);
         event.register(ISortingGridMember.class);
         event.register(ISortingInventory.class);
         event.register(ISortingUpgradable.class);

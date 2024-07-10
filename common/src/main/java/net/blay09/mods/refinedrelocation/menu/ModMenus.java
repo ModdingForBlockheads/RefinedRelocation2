@@ -4,7 +4,7 @@ import net.blay09.mods.balm.api.DeferredObject;
 import net.blay09.mods.balm.api.menu.BalmMenuFactory;
 import net.blay09.mods.balm.api.menu.BalmMenus;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
-import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.blay09.mods.refinedrelocation.api.filter.ChecklistFilter;
 import net.blay09.mods.refinedrelocation.filter.NameFilter;
 import net.blay09.mods.refinedrelocation.block.entity.FastHopperBlockEntity;
 import net.blay09.mods.refinedrelocation.block.entity.SortingChestBlockEntity;
@@ -112,7 +112,7 @@ public class ModMenus {
                 final var blockEntity = inventory.player.level().getBlockEntity(data.pos());
                 if (inventory.player.containerMenu instanceof IRootFilterMenu rootFilterMenu) {
                     final var filter = rootFilterMenu.getRootFilter().getFilter(data.filterIndex());
-                    if (filter instanceof IChecklistFilter checklistFilterInstance) {
+                    if (filter instanceof ChecklistFilter checklistFilterInstance) {
                         return new ChecklistFilterMenu(windowId, inventory, blockEntity, data.rootFilterIndex(), checklistFilterInstance);
                     } else {
                         throw new IllegalStateException("Filter is not a NameFilter");

@@ -4,7 +4,7 @@ import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.container.IMenuMessage;
 import net.blay09.mods.refinedrelocation.api.container.IHasReturnCallback;
 import net.blay09.mods.refinedrelocation.api.container.ReturnCallback;
-import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.blay09.mods.refinedrelocation.api.filter.ChecklistFilter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -38,13 +38,13 @@ public class ChecklistFilterMenu extends AbstractFilterMenu implements IHasRetur
 	private final Player player;
 	private final BlockEntity blockEntity;
 	private final int rootFilterIndex;
-	private final IChecklistFilter filter;
+	private final ChecklistFilter filter;
 
 	private final byte[] lastStates;
 	private int ticksSinceUpdate = UPDATE_INTERVAL;
 	private ReturnCallback returnCallback;
 
-	public ChecklistFilterMenu(int windowId, Inventory playerInventory, BlockEntity blockEntity, int rootFilterIndex, IChecklistFilter filter) {
+	public ChecklistFilterMenu(int windowId, Inventory playerInventory, BlockEntity blockEntity, int rootFilterIndex, ChecklistFilter filter) {
 		super(ModMenus.checklistFilter.get(), windowId);
 
 		this.player = playerInventory.player;
@@ -56,7 +56,7 @@ public class ChecklistFilterMenu extends AbstractFilterMenu implements IHasRetur
 		addPlayerInventory(playerInventory, 8, 128);
 	}
 
-	public IChecklistFilter getFilter() {
+	public ChecklistFilter getFilter() {
 		return filter;
 	}
 

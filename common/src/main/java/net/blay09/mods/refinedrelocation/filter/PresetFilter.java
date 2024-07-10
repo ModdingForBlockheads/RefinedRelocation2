@@ -7,7 +7,7 @@ import net.blay09.mods.balm.api.menu.BalmMenuProvider;
 import net.blay09.mods.balm.api.tag.BalmItemTags;
 import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.client.IDrawable;
-import net.blay09.mods.refinedrelocation.api.filter.IChecklistFilter;
+import net.blay09.mods.refinedrelocation.api.filter.ChecklistFilter;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.GuiTextures;
 import net.blay09.mods.refinedrelocation.menu.ChecklistFilterMenu;
 import net.minecraft.core.component.DataComponents;
@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PresetFilter implements IChecklistFilter {
+public class PresetFilter implements ChecklistFilter {
 
     public static final String ID = RefinedRelocation.MOD_ID + ":preset_filter";
 

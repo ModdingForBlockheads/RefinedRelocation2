@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface IFilter extends ISimpleFilter, Comparable<IFilter> {
+public interface IFilter extends SimpleFilter, Comparable<IFilter> {
 	String getIdentifier();
 	String getLangKey();
 	String getDescriptionLangKey();
