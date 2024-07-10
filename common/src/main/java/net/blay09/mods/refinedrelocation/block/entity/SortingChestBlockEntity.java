@@ -26,9 +26,9 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Clearable;
 import net.minecraft.world.Container;
 import net.minecraft.world.Nameable;
@@ -37,13 +37,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.LidBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 
 import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
 
 
@@ -54,6 +54,31 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
         LidBlockEntity,
         Clearable {
 
+
+    private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
+        protected void onOpen(Level level, BlockPos pos, BlockState state) {
+            playSound(level, pos, state, SoundEvents.CHEST_OPEN);
+        }
+
+        protected void onClose(Level level, BlockPos pos, BlockState state) {
+            playSound(level, pos, state, SoundEvents.CHEST_CLOSE);
+        }
+
+        protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int a, int b) {
+            signalOpenCount(level, pos, state, a, b);
+        }
+
+        protected boolean isOwnContainer(Player player) {
+            if (!(player.containerMenu instanceof SortingChestMenu sortingChestMenu)) {
+                return false;
+            } else {
+                final var container = sortingChestMenu.getContainer();
+                return container == SortingChestBlockEntity.this.getContainer();
+            }
+        }
+    };
+    private final ChestLidController chestLidController = new ChestLidController();
+
     private static final int EVENT_NUM_PLAYERS = 1;
 
     private final DefaultContainer container;
@@ -61,11 +86,6 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
     private final ISortingInventory sortingInventory = new SortingInventory(this);
     private final IRootFilter rootFilter = new RootFilter();
     private final SortingChestType chestType;
-
-    private float lidAngle;
-    private float prevLidAngle;
-    private int numPlayersUsing;
-    private int ticksSinceSync;
 
     private Component customName;
 
@@ -97,75 +117,6 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         sortingInventory.update();
-
-        ticksSinceSync++;
-        if (numPlayersUsing != 0 && (ticksSinceSync + worldPosition.getX() + worldPosition.getY() + worldPosition.getZ()) % 200 == 0) {
-            numPlayersUsing = calculatePlayersUsing();
-        }
-
-        prevLidAngle = lidAngle;
-        int x = worldPosition.getX();
-        int y = worldPosition.getY();
-        int z = worldPosition.getZ();
-        if (numPlayersUsing > 0 && lidAngle == 0f) {
-            level.playSound(null,
-                    x + 0.5,
-                    y + 0.5,
-                    z + 0.5,
-                    SoundEvents.CHEST_OPEN,
-                    SoundSource.BLOCKS,
-                    0.5f,
-                    level.random.nextFloat() * 0.1f + 0.9f);
-        }
-
-        if (numPlayersUsing == 0 && lidAngle > 0f || numPlayersUsing > 0 && lidAngle < 1f) {
-            float oldLidAngle = lidAngle;
-            if (numPlayersUsing > 0) {
-                lidAngle += 0.1f;
-            } else {
-                lidAngle -= 0.1f;
-            }
-
-            if (lidAngle > 1f) {
-                lidAngle = 1f;
-            }
-
-            if (lidAngle < 0.5f && oldLidAngle >= 0.5f) {
-                level.playSound(null,
-                        x + 0.5,
-                        y + 0.5,
-                        z + 0.5,
-                        SoundEvents.CHEST_CLOSE,
-                        SoundSource.BLOCKS,
-                        0.5f,
-                        level.random.nextFloat() * 0.1f + 0.9f);
-            }
-
-            if (lidAngle < 0f) {
-                lidAngle = 0f;
-            }
-        }
-    }
-
-    private int calculatePlayersUsing() {
-        int result = 0;
-        float distance = 5f;
-
-        for (Player player : level.getEntitiesOfClass(Player.class,
-                new AABB((float) worldPosition.getX() - distance,
-                        (float) worldPosition.getY() - distance,
-                        (float) worldPosition.getZ() - distance,
-                        (float) (worldPosition.getX() + 1) + distance,
-                        (float) (worldPosition.getY() + 1) + distance,
-                        (float) (worldPosition.getZ() + 1) + distance))) {
-            if (player.containerMenu instanceof SortingChestMenu menu) {
-                if (menu.getTileEntity() == this) {
-                    ++result;
-                }
-            }
-        }
-
-        return result;
     }
 
     @Override
@@ -254,39 +205,6 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
         return customName;
     }
 
-    @Override
-    public boolean triggerEvent(int id, int value) {
-        if (id == EVENT_NUM_PLAYERS) {
-            numPlayersUsing = value;
-            return true;
-        }
-
-        return super.triggerEvent(id, value);
-    }
-
-    public void openChest(Player player) {
-        if (!player.isSpectator()) {
-            numPlayersUsing = Math.max(0, numPlayersUsing + 1);
-            level.blockEvent(worldPosition, Blocks.ENDER_CHEST, EVENT_NUM_PLAYERS, numPlayersUsing);
-        }
-    }
-
-    public void closeChest(Player player) {
-        if (!player.isSpectator()) {
-            numPlayersUsing = Math.max(0, numPlayersUsing - 1);
-            level.blockEvent(worldPosition, Blocks.ENDER_CHEST, EVENT_NUM_PLAYERS, numPlayersUsing);
-        }
-    }
-
-    @Override
-    public float getOpenNess(float partialTicks) {
-        return Mth.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
-    }
-
-    public int getNumPlayersUsing() {
-        return numPlayersUsing;
-    }
-
     public void restoreItems(ListTag items, HolderLookup.Provider provider) {
         for (Tag item : items) {
             CompoundTag compound = (CompoundTag) item;
@@ -314,5 +232,73 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
     @Override
     public StreamCodec<RegistryFriendlyByteBuf, BlockPos> getScreenStreamCodec() {
         return BlockPos.STREAM_CODEC.cast();
+    }
+
+    @Override
+    public float getOpenNess(float partialTicks) {
+        return chestLidController.getOpenness(partialTicks);
+    }
+
+    public static int getOpenCount(BlockGetter blockGetter, BlockPos pos) {
+        final var state = blockGetter.getBlockState(pos);
+        if (state.hasBlockEntity()) {
+            final var blockEntity = blockGetter.getBlockEntity(pos);
+            if (blockEntity instanceof SortingChestBlockEntity sortingChest) {
+                return sortingChest.openersCounter.getOpenerCount();
+            }
+        }
+
+        return 0;
+    }
+
+    public void recheckOpen() {
+        if (!remove) {
+            openersCounter.recheckOpeners(getLevel(), getBlockPos(), getBlockState());
+        }
+    }
+
+    protected void signalOpenCount(Level level, BlockPos pos, BlockState state, int wat, int wot) {
+        final var block = state.getBlock();
+        level.blockEvent(pos, block, 1, wot);
+    }
+
+
+    public static void lidAnimateTick(Level level, BlockPos pos, BlockState state, SortingChestBlockEntity blockEntity) {
+        blockEntity.chestLidController.tickLid();
+    }
+
+    static void playSound(Level level, BlockPos pos, BlockState state, SoundEvent soundEvent) {
+        level.playSound(null,
+                pos.getX() + 0.5,
+                pos.getY() + 0.5,
+                pos.getZ() + 0.5,
+                soundEvent,
+                SoundSource.BLOCKS,
+                0.5f,
+                level.random.nextFloat() * 0.1f + 0.9f);
+    }
+
+    @Override
+    public boolean triggerEvent(int event, int data) {
+        if (event == EVENT_NUM_PLAYERS) {
+            chestLidController.shouldBeOpen(data > 0);
+            return true;
+        } else {
+            return super.triggerEvent(event, data);
+        }
+    }
+
+    public void startOpen(Player player) {
+        if (!remove && !player.isSpectator()) {
+            openersCounter.incrementOpeners(player, getLevel(), getBlockPos(), getBlockState());
+        }
+
+    }
+
+    public void stopOpen(Player player) {
+        if (!remove && !player.isSpectator()) {
+            openersCounter.decrementOpeners(player, getLevel(), getBlockPos(), getBlockState());
+        }
+
     }
 }

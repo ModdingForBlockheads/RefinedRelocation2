@@ -127,7 +127,9 @@ public class SortingChestBlock extends AbstractChestBlock<SortingChestBlockEntit
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : createTickerHelper(type,
+        return level.isClientSide ? createTickerHelper(type,
+                ModBlockEntities.sortingChests.get(chestType.ordinal()).get(),
+                SortingChestBlockEntity::lidAnimateTick) : createTickerHelper(type,
                 ModBlockEntities.sortingChests.get(chestType.ordinal()).get(),
                 SortingChestBlockEntity::serverTick);
     }

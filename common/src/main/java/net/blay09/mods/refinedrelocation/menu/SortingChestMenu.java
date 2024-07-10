@@ -3,6 +3,7 @@ package net.blay09.mods.refinedrelocation.menu;
 import net.blay09.mods.refinedrelocation.SortingChestType;
 import net.blay09.mods.refinedrelocation.block.entity.SortingChestBlockEntity;
 import net.blay09.mods.refinedrelocation.util.IMenuWithDoor;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
@@ -12,11 +13,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public class SortingChestMenu extends AbstractBaseMenu implements IMenuWithDoor {
 
     private final SortingChestBlockEntity sortingChest;
+    private final Container container;
 
     public SortingChestMenu(int windowId, Inventory playerInventory, SortingChestBlockEntity sortingChest) {
         super(ModMenus.sortingChest.get(), windowId);
 
         this.sortingChest = sortingChest;
+        this.container = sortingChest.getContainer();
 
         SortingChestType chestType = sortingChest.getChestType();
         int rowSize = chestType.getContainerRowSize();
@@ -28,8 +31,11 @@ public class SortingChestMenu extends AbstractBaseMenu implements IMenuWithDoor 
         }
 
         addPlayerInventory(playerInventory, (chestType.getGuiWidth() - 162) / 2 + 1, rowCount * 18 + 32);
+        sortingChest.startOpen(playerInventory.player);
+    }
 
-        sortingChest.openChest(playerInventory.player);
+    public Container getContainer() {
+        return container;
     }
 
     public SortingChestBlockEntity getTileEntity() {
@@ -65,7 +71,7 @@ public class SortingChestMenu extends AbstractBaseMenu implements IMenuWithDoor 
 
     @Override
     public boolean stillValid(Player player) {
-        return !sortingChest.isRemoved() && player.distanceToSqr(sortingChest.getBlockPos().getX() + 0.5, sortingChest.getBlockPos().getY() + 0.5, sortingChest.getBlockPos().getZ() + 0.5) <= 64;
+        return container.stillValid(player);
     }
 
     @Override
@@ -76,7 +82,7 @@ public class SortingChestMenu extends AbstractBaseMenu implements IMenuWithDoor 
     @Override
     public void removed(Player player) {
         super.removed(player);
-        sortingChest.closeChest(player);
+        sortingChest.stopOpen(player);
     }
 
 }

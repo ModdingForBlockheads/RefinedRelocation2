@@ -46,10 +46,10 @@ public class SortingChestScreen extends ModContainerScreen<SortingChestMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(font, getTitle().getVisualOrderText(), 8, 6, 4210752);
+        guiGraphics.drawString(font, getTitle().getVisualOrderText(), 8, 6, 4210752, false);
 
         int inventoryTitleX = (tileEntity.getChestType().getGuiWidth() - 162) / 2;
-        guiGraphics.drawString(font, I18n.get("container.inventory"), inventoryTitleX, imageHeight - 96 + 2, 4210752);
+        guiGraphics.drawString(font, I18n.get("container.inventory"), inventoryTitleX, imageHeight - 96 + 2, 4210752, false);
     }
 
 }
