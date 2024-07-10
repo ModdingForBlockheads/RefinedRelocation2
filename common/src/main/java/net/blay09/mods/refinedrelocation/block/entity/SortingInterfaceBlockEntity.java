@@ -6,10 +6,10 @@ import net.blay09.mods.balm.api.block.entity.OnLoadHandler;
 import net.blay09.mods.balm.api.provider.BalmProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
 import net.blay09.mods.refinedrelocation.config.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.filter.RootFilterImpl;
 import net.blay09.mods.refinedrelocation.grid.SortingInventoryDelegate;
 import net.minecraft.core.BlockPos;
@@ -125,8 +125,8 @@ public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDro
         return Lists.newArrayList(
                 new BalmProvider<>(RootFilter.class, rootFilter),
                 new BalmProvider<>(SimpleFilter.class, rootFilter),
-                new BalmProvider<>(ISortingInventory.class, sortingInventory),
-                new BalmProvider<>(ISortingGridMember.class, sortingInventory)
+                new BalmProvider<>(SortingInventory.class, sortingInventory),
+                new BalmProvider<>(SortingGridMember.class, sortingInventory)
         );
     }
 

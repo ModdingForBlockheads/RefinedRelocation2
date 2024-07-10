@@ -8,8 +8,8 @@ import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.filter.FilterRegistry;
 import net.blay09.mods.refinedrelocation.grid.SortingGrid;
 import net.blay09.mods.refinedrelocation.network.*;
@@ -36,7 +36,7 @@ public class InternalMethodsImpl implements InternalMethods {
     }
 
     @Override
-    public void addToSortingGrid(ISortingGridMember member) {
+    public void addToSortingGrid(SortingGridMember member) {
         ISortingGrid sortingGrid = member.getSortingGrid();
         if (sortingGrid != null) {
             return;
@@ -53,7 +53,7 @@ public class InternalMethodsImpl implements InternalMethods {
             if (level.hasChunkAt(facingPos)) {
                 BlockEntity blockEntity = level.getChunk(facingPos).getBlockEntity(facingPos);
                 if (blockEntity != null) {
-                    ISortingGridMember otherMember = Balm.getProviders().getProvider(blockEntity, ISortingGridMember.class);
+                    SortingGridMember otherMember = Balm.getProviders().getProvider(blockEntity, SortingGridMember.class);
                     if (otherMember != null && otherMember.getSortingGrid() != null) {
                         if (sortingGrid != null) {
                             ((SortingGrid) sortingGrid).mergeWith(otherMember.getSortingGrid());
@@ -73,25 +73,25 @@ public class InternalMethodsImpl implements InternalMethods {
     }
 
     @Override
-    public void removeFromSortingGrid(ISortingGridMember member) {
+    public void removeFromSortingGrid(SortingGridMember member) {
         ISortingGrid sortingGrid = member.getSortingGrid();
         if (sortingGrid == null) {
             return;
         }
         sortingGrid.removeMember(member);
         // First, reset all sorting grid members
-        for (ISortingGridMember otherMember : sortingGrid.getMembers()) {
+        for (SortingGridMember otherMember : sortingGrid.getMembers()) {
             otherMember.setSortingGrid(null);
         }
         // Then, re-add them to the grid
-        for (ISortingGridMember otherMember : sortingGrid.getMembers()) {
+        for (SortingGridMember otherMember : sortingGrid.getMembers()) {
             RefinedRelocationAPI.addToSortingGrid(otherMember);
         }
     }
 
     @Override
-    public void insertIntoSortingGrid(ISortingInventory sortingInventory, int fromSlotIndex, ItemStack itemStack) {
-        List<ISortingInventory> passingList = Lists.newArrayList();
+    public void insertIntoSortingGrid(SortingInventory sortingInventory, int fromSlotIndex, ItemStack itemStack) {
+        List<SortingInventory> passingList = Lists.newArrayList();
         Container container = sortingInventory.getContainer();
         if (container == null) {
             return;
@@ -104,8 +104,8 @@ public class InternalMethodsImpl implements InternalMethods {
 
         ISortingGrid sortingGrid = sortingInventory.getSortingGrid();
         if (sortingGrid != null) {
-            for (ISortingGridMember member : sortingGrid.getMembers()) {
-                if (member instanceof ISortingInventory memberInventory) {
+            for (SortingGridMember member : sortingGrid.getMembers()) {
+                if (member instanceof SortingInventory memberInventory) {
                     SimpleFilter filter = memberInventory.getFilter();
                     boolean passes = filter.passes(memberInventory.getBlockEntity(), restStack, itemStack);
                     if (passes) {
@@ -117,7 +117,7 @@ public class InternalMethodsImpl implements InternalMethods {
 
         // No point trying if there's no matching inventories.
         if (!passingList.isEmpty()) {
-            ISortingInventory targetInventory = getBestTargetInventory(passingList, null);
+            SortingInventory targetInventory = getBestTargetInventory(passingList, null);
             if (targetInventory != sortingInventory) {
                 // Only move the item if it's not already in the correct inventory
                 while (!restStack.isEmpty() && !passingList.isEmpty() && targetInventory != null) {
@@ -146,12 +146,12 @@ public class InternalMethodsImpl implements InternalMethods {
     }
 
     @Nullable
-    private static ISortingInventory getBestTargetInventory(List<ISortingInventory> passingList, @Nullable ISortingInventory lastInventory) {
-        ISortingInventory targetInventory = null;
+    private static SortingInventory getBestTargetInventory(List<SortingInventory> passingList, @Nullable SortingInventory lastInventory) {
+        SortingInventory targetInventory = null;
         int highestPriority = Integer.MIN_VALUE;
-        Iterator<ISortingInventory> it = passingList.iterator();
+        Iterator<SortingInventory> it = passingList.iterator();
         while (it.hasNext()) {
-            ISortingInventory sortingInventory = it.next();
+            SortingInventory sortingInventory = it.next();
             if (sortingInventory == lastInventory) {
                 it.remove();
             } else if (sortingInventory.getPriority() > highestPriority) {

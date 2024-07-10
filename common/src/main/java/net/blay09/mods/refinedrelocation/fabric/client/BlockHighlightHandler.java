@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.event.client.BlockHighlightDrawEvent;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
 import net.blay09.mods.refinedrelocation.mixin.LevelRendererAccessor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -27,7 +27,7 @@ public class BlockHighlightHandler {
         final var hitResult = event.getHitResult();
         final var blockEntity = level.getBlockEntity(hitResult.getBlockPos());
         if (blockEntity != null) {
-            ISortingGridMember sortingMember = Balm.getProviders().getProvider(blockEntity, ISortingGridMember.class);
+            SortingGridMember sortingMember = Balm.getProviders().getProvider(blockEntity, SortingGridMember.class);
             if (sortingMember != null) {
                 ISortingGrid sortingGrid = sortingMember.getSortingGrid();
                 if (sortingGrid != null) {
@@ -35,7 +35,7 @@ public class BlockHighlightHandler {
                     double camX = camera.getPosition().x;
                     double camY = camera.getPosition().y;
                     double camZ = camera.getPosition().z;
-                    for (ISortingGridMember member : sortingGrid.getMembers()) {
+                    for (SortingGridMember member : sortingGrid.getMembers()) {
                         BlockEntity memberTile = member.getBlockEntity();
                         BlockPos pos = memberTile.getBlockPos();
                         BlockState blockState = level.getBlockState(pos);

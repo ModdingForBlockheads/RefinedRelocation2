@@ -3,8 +3,8 @@ package net.blay09.mods.refinedrelocation.api;
 import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -23,10 +23,10 @@ public class Capabilities {
     /**
      * Note that instances of this capability are being cached without validity checks.
      */
-    public static Capability<ISortingGridMember> SORTING_GRID_MEMBER = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<SortingGridMember> SORTING_GRID_MEMBER = CapabilityManager.get(new CapabilityToken<>() {
     });
 
-    public static Capability<ISortingInventory> SORTING_INVENTORY = CapabilityManager.get(new CapabilityToken<>() {
+    public static Capability<SortingInventory> SORTING_INVENTORY = CapabilityManager.get(new CapabilityToken<>() {
     });
 
     public static Capability<ISortingUpgradable> SORTING_UPGRADABLE = CapabilityManager.get(new CapabilityToken<>() {

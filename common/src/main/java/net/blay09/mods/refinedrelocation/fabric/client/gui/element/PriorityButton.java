@@ -1,7 +1,7 @@
 package net.blay09.mods.refinedrelocation.fabric.client.gui.element;
 
 import net.blay09.mods.refinedrelocation.api.Priority;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.ITickableElement;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.ITooltipElement;
 import net.minecraft.ChatFormatting;
@@ -17,10 +17,10 @@ import static net.blay09.mods.refinedrelocation.util.TextUtils.formattedTranslat
 public class PriorityButton extends Button implements ITooltipElement, ITickableElement {
 
     private static final Priority.Enum[] values = Priority.Enum.values();
-    private final ISortingInventory sortingInventory;
+    private final SortingInventory sortingInventory;
     private int currentIndex = 2;
 
-    public PriorityButton(int x, int y, int width, int height, ISortingInventory sortingInventory) {
+    public PriorityButton(int x, int y, int width, int height, SortingInventory sortingInventory) {
         super(x, y, width, height, Component.translatable(values[2].getLangKey()), it -> {
         }, DEFAULT_NARRATION);
         this.sortingInventory = sortingInventory;

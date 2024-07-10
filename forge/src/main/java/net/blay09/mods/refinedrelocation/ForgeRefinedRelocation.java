@@ -7,8 +7,8 @@ import net.blay09.mods.refinedrelocation.api.ISortingUpgradable;
 import net.blay09.mods.refinedrelocation.api.filter.IMultiRootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.fabric.client.RefinedRelocationClient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -30,8 +30,8 @@ public class ForgeRefinedRelocation {
         event.register(RootFilter.class);
         event.register(IMultiRootFilter.class);
         event.register(SimpleFilter.class);
-        event.register(ISortingGridMember.class);
-        event.register(ISortingInventory.class);
+        event.register(SortingGridMember.class);
+        event.register(SortingInventory.class);
         event.register(ISortingUpgradable.class);
     }
 }

@@ -2,19 +2,19 @@ package net.blay09.mods.refinedrelocation.grid;
 
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import org.jetbrains.annotations.Nullable;
 
-public class SortingGridMember implements ISortingGridMember {
+public class SortingGridMemberImpl implements SortingGridMember {
 
 	private final BlockEntity blockEntity;
 	private boolean isInvalid;
 	private ISortingGrid sortingGrid;
 
-    public SortingGridMember(BlockEntity blockEntity) {
+    public SortingGridMemberImpl(BlockEntity blockEntity) {
         this.blockEntity = blockEntity;
     }
 

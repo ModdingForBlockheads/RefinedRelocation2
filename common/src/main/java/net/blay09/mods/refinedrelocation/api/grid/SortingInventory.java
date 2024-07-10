@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import org.jetbrains.annotations.Nullable;
 
-public interface ISortingInventory extends ISortingGridMember {
+public interface SortingInventory extends SortingGridMember {
 
     @Nullable Container getContainer();
 

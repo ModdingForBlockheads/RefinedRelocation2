@@ -2,8 +2,8 @@ package net.blay09.mods.refinedrelocation.api;
 
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerListener;
@@ -18,11 +18,11 @@ public class RefinedRelocationAPI {
         RefinedRelocationAPI.internalMethods = internalMethods;
     }
 
-    public static void addToSortingGrid(ISortingGridMember member) {
+    public static void addToSortingGrid(SortingGridMember member) {
         internalMethods.addToSortingGrid(member);
     }
 
-    public static void removeFromSortingGrid(ISortingGridMember member) {
+    public static void removeFromSortingGrid(SortingGridMember member) {
         internalMethods.removeFromSortingGrid(member);
     }
 
@@ -30,7 +30,7 @@ public class RefinedRelocationAPI {
         internalMethods.registerFilter(filterClass);
     }
 
-    public static void insertIntoSortingGrid(ISortingInventory sortingInventory, int fromSlotIndex, ItemStack itemStack) {
+    public static void insertIntoSortingGrid(SortingInventory sortingInventory, int fromSlotIndex, ItemStack itemStack) {
         internalMethods.insertIntoSortingGrid(sortingInventory, fromSlotIndex, itemStack);
     }
 

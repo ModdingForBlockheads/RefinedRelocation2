@@ -2,8 +2,8 @@ package net.blay09.mods.refinedrelocation.api;
 
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerListener;
@@ -14,11 +14,11 @@ public interface InternalMethods {
 
     void registerFilter(Class<? extends IFilter> filterClass);
 
-    void addToSortingGrid(ISortingGridMember member);
+    void addToSortingGrid(SortingGridMember member);
 
-    void removeFromSortingGrid(ISortingGridMember member);
+    void removeFromSortingGrid(SortingGridMember member);
 
-    void insertIntoSortingGrid(ISortingInventory sortingInventory, int fromSlotIndex, ItemStack itemStack);
+    void insertIntoSortingGrid(SortingInventory sortingInventory, int fromSlotIndex, ItemStack itemStack);
 
     void sendContainerMessageToServer(String key, String value);
 

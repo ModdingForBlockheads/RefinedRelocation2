@@ -2,7 +2,7 @@ package net.blay09.mods.refinedrelocation.block;
 
 import com.mojang.serialization.MapCodec;
 import net.blay09.mods.balm.api.Balm;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
 import net.blay09.mods.refinedrelocation.block.entity.SortingConnectorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -108,7 +108,7 @@ public class SortingConnectorBlock extends BaseEntityBlock {
         for (Direction facing : Direction.values()) {
             BlockPos neighbourPos = pos.relative(facing);
             BlockEntity blockEntity = blockGetter.getBlockEntity(neighbourPos);
-            if (blockEntity != null && Balm.getProviders().getProvider(blockEntity, ISortingGridMember.class) != null) {
+            if (blockEntity != null && Balm.getProviders().getProvider(blockEntity, SortingGridMember.class) != null) {
                 state = state.setValue(CONNECTIONS[facing.get3DDataValue()], true);
                 if (axis != null && axis != facing.getAxis()) {
                     isCorner = true;

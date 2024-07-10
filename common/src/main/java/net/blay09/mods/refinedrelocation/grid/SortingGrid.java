@@ -2,33 +2,33 @@ package net.blay09.mods.refinedrelocation.grid;
 
 import com.google.common.collect.Lists;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingGridMember;
+import net.blay09.mods.refinedrelocation.api.grid.SortingGridMember;
 
 import java.util.Collection;
 import java.util.List;
 
 public class SortingGrid implements ISortingGrid {
 
-	private final List<ISortingGridMember> memberList = Lists.newArrayList();
+	private final List<SortingGridMember> memberList = Lists.newArrayList();
 	private boolean isSortingActive;
 
 	public void mergeWith(ISortingGrid otherGrid) {
 		if(otherGrid == this) {
 			return;
 		}
-		for(ISortingGridMember member : otherGrid.getMembers()) {
+		for(SortingGridMember member : otherGrid.getMembers()) {
 			addMember(member);
 		}
 	}
 
 	@Override
-	public void addMember(ISortingGridMember member) {
+	public void addMember(SortingGridMember member) {
 		member.setSortingGrid(this);
 		memberList.add(member);
 	}
 
 	@Override
-	public void removeMember(ISortingGridMember member) {
+	public void removeMember(SortingGridMember member) {
 		member.setSortingGrid(null);
 		memberList.remove(member);
 	}
@@ -44,7 +44,7 @@ public class SortingGrid implements ISortingGrid {
 	}
 
 	@Override
-	public Collection<ISortingGridMember> getMembers() {
+	public Collection<SortingGridMember> getMembers() {
 		return memberList;
 	}
 }

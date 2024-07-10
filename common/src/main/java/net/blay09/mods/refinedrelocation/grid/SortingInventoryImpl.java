@@ -6,7 +6,7 @@ import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
 import net.blay09.mods.refinedrelocation.api.filter.SimpleFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingGrid;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -14,13 +14,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.LinkedList;
 
-public class SortingInventory extends SortingGridMember implements ISortingInventory {
+public class SortingInventoryImpl extends SortingGridMemberImpl implements SortingInventory {
 
     private final LinkedList<SortingStack> sortingStackList = Lists.newLinkedList();
     private SimpleFilter filter;
     private int priority;
 
-    public SortingInventory(BlockEntity blockEntity) {
+    public SortingInventoryImpl(BlockEntity blockEntity) {
         super(blockEntity);
     }
 

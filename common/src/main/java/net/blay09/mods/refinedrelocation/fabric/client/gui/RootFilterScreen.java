@@ -5,7 +5,7 @@ import net.blay09.mods.refinedrelocation.RefinedRelocation;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.api.client.IDrawable;
 import net.blay09.mods.refinedrelocation.api.client.IFilterPreviewScreen;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.base.element.LabelWidget;
 import net.blay09.mods.refinedrelocation.fabric.client.gui.element.*;
 import net.blay09.mods.refinedrelocation.menu.RootFilterMenu;
@@ -84,7 +84,7 @@ public class RootFilterScreen extends FilterScreen<RootFilterMenu> implements IF
 
         ticksSinceUpdate++;
         if (ticksSinceUpdate >= UPDATE_INTERVAL) {
-            ISortingInventory sortingInventory = menu.getSortingInventory();
+            SortingInventory sortingInventory = menu.getSortingInventory();
             if (lastSentPriority != sortingInventory.getPriority()) {
                 RefinedRelocationAPI.sendContainerMessageToServer(RootFilterMenu.KEY_PRIORITY, sortingInventory.getPriority());
                 lastSentPriority = sortingInventory.getPriority();

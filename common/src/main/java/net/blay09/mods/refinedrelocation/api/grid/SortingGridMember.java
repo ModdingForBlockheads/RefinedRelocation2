@@ -4,7 +4,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import org.jetbrains.annotations.Nullable;
 
-public interface ISortingGridMember {
+public interface SortingGridMember {
 	BlockEntity getBlockEntity();
 
 	boolean isInvalid();

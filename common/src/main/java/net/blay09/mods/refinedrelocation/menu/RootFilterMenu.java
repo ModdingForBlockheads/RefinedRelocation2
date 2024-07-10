@@ -9,9 +9,9 @@ import net.blay09.mods.refinedrelocation.api.container.IMenuMessage;
 import net.blay09.mods.refinedrelocation.api.container.ReturnCallback;
 import net.blay09.mods.refinedrelocation.api.filter.IFilter;
 import net.blay09.mods.refinedrelocation.api.filter.RootFilter;
-import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
+import net.blay09.mods.refinedrelocation.api.grid.SortingInventory;
 import net.blay09.mods.refinedrelocation.filter.RootFilterImpl;
-import net.blay09.mods.refinedrelocation.grid.SortingInventory;
+import net.blay09.mods.refinedrelocation.grid.SortingInventoryImpl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -54,7 +54,7 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
     private final int rootFilterIndex;
 
     private ReturnCallback returnCallback;
-    private ISortingInventory sortingInventory;
+    private SortingInventory sortingInventory;
 
     private int lastFilterCount = -1;
     private int lastPriority;
@@ -67,9 +67,9 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
         this.blockEntity = blockEntity;
         this.rootFilter = RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).orElseGet(RootFilterImpl::new);
         this.rootFilterIndex = rootFilterIndex;
-        sortingInventory = Balm.getProviders().getProvider(blockEntity, ISortingInventory.class);
+        sortingInventory = Balm.getProviders().getProvider(blockEntity, SortingInventory.class);
         if (sortingInventory == null) {
-            sortingInventory = new SortingInventory(blockEntity);
+            sortingInventory = new SortingInventoryImpl(blockEntity);
         }
 
         addPlayerInventory(playerInventory, 8, hasSortingInventory() ? 128 : 84);
@@ -247,10 +247,10 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
     }
 
     public boolean hasSortingInventory() {
-        return Balm.getProviders().getProvider(blockEntity, ISortingInventory.class) != null;
+        return Balm.getProviders().getProvider(blockEntity, SortingInventory.class) != null;
     }
 
-    public ISortingInventory getSortingInventory() {
+    public SortingInventory getSortingInventory() {
         return sortingInventory;
     }
 
