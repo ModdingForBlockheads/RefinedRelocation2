@@ -58,7 +58,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
 
     private final DefaultContainer container;
 
-    private final ISortingInventory sortingInventory = new SortingInventory();
+    private final ISortingInventory sortingInventory = new SortingInventory(this);
     private final IRootFilter rootFilter = new RootFilter();
     private final SortingChestType chestType;
 
@@ -88,7 +88,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
 
     @Override
     public void onLoad() {
-        sortingInventory.onFirstTick(this);
+        sortingInventory.firstTick();
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, SortingChestBlockEntity blockEntity) {
@@ -96,7 +96,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
     }
 
     public void serverTick(Level level, BlockPos pos, BlockState state) {
-        sortingInventory.onUpdate(this);
+        sortingInventory.update();
 
         ticksSinceSync++;
         if (numPlayersUsing != 0 && (ticksSinceSync + worldPosition.getX() + worldPosition.getY() + worldPosition.getZ()) % 200 == 0) {
@@ -171,7 +171,7 @@ public class SortingChestBlockEntity extends BalmBlockEntity implements BalmMenu
     @Override
     public void setRemoved() {
         super.setRemoved();
-        sortingInventory.onInvalidate(this);
+        sortingInventory.invalidate();
     }
 
     @Override

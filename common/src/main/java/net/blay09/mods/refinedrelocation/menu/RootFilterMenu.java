@@ -69,8 +69,8 @@ public class RootFilterMenu extends AbstractFilterMenu implements IRootFilterMen
         this.rootFilter = RefinedRelocationUtils.getRootFilter(blockEntity, rootFilterIndex).orElseGet(RootFilter::new);
         this.rootFilterIndex = rootFilterIndex;
         sortingInventory = Balm.getProviders().getProvider(blockEntity, ISortingInventory.class);
-        if(sortingInventory == null) {
-            sortingInventory = new SortingInventory();
+        if (sortingInventory == null) {
+            sortingInventory = new SortingInventory(blockEntity);
         }
 
         addPlayerInventory(playerInventory, 8, hasSortingInventory() ? 128 : 84);

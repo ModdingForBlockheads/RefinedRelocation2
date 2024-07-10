@@ -1,6 +1,7 @@
 package net.blay09.mods.refinedrelocation.block.entity;
 
 import com.google.common.collect.Lists;
+import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.balm.api.block.entity.OnLoadHandler;
 import net.blay09.mods.balm.api.provider.BalmProvider;
 import net.blay09.mods.balm.common.BalmBlockEntity;
@@ -10,7 +11,7 @@ import net.blay09.mods.refinedrelocation.config.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.blay09.mods.refinedrelocation.filter.RootFilter;
-import net.blay09.mods.refinedrelocation.grid.SortingInventory;
+import net.blay09.mods.refinedrelocation.grid.SortingInventoryDelegate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDroppableItemHandler, OnLoadHandler {
 
-    private final ISortingInventory sortingInventory = new SortingInventory();
+    private final SortingInventoryDelegate sortingInventory = new SortingInventoryDelegate(this);
     private final IRootFilter rootFilter = new RootFilter();
 
     private BlockEntity cachedConnectedTile;
@@ -46,39 +47,46 @@ public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDro
     public void serverTick(Level level, BlockPos pos, BlockState state) {
         if (cachedConnectedTile == null) {
             cachedConnectedTile = level.getBlockEntity(worldPosition.relative(getFacing()));
+            if (cachedConnectedTile != null) {
+                final var container = Balm.getProviders().getProvider(cachedConnectedTile, Container.class);
+                sortingInventory.setContainer(container);
+            }
         } else if (cachedConnectedTile.isRemoved()) {
             cachedConnectedTile = null;
+            sortingInventory.setContainer(null);
             lastInventory = null;
         }
 
-        sortingInventory.onUpdate(this);
+        sortingInventory.update();
 
-        Container itemHandler = sortingInventory.getContainer();
-        int inventorySize = itemHandler.getContainerSize();
+        final var container = sortingInventory.getContainer();
+        if (container != null) {
+            int inventorySize = container.getContainerSize();
 
-        // Create a copy of the target inventory so we can compare and detect changes
-        if (lastInventory == null || inventorySize != lastInventory.length) {
-            lastInventory = new ItemStack[itemHandler.getContainerSize()];
-            for (int i = 0; i < inventorySize; i++) {
-                ItemStack currentStack = itemHandler.getItem(i);
-                lastInventory[i] = currentStack.isEmpty() ? ItemStack.EMPTY : currentStack.copy();
-            }
-            currentDetectionSlot = 0;
-        }
-
-        // Detect changes in the target inventory, nine slots at a time
-        for (int j = 0; j < Math.min(RefinedRelocationConfig.getActive().sortingInterfaceSlotsPerTick, inventorySize); j++) {
-            int i = currentDetectionSlot;
-            ItemStack prevStack = lastInventory[i];
-            ItemStack currentStack = itemHandler.getItem(i);
-            if (!ItemStack.isSameItemSameComponents(prevStack, currentStack)) {
-                sortingInventory.onSlotChanged(i);
-                lastInventory[i] = currentStack.isEmpty() ? ItemStack.EMPTY : currentStack.copy();
-            }
-
-            currentDetectionSlot++;
-            if (currentDetectionSlot >= inventorySize) {
+            // Create a copy of the target inventory so that we can compare and detect changes
+            if (lastInventory == null || inventorySize != lastInventory.length) {
+                lastInventory = new ItemStack[container.getContainerSize()];
+                for (int i = 0; i < inventorySize; i++) {
+                    ItemStack currentStack = container.getItem(i);
+                    lastInventory[i] = currentStack.isEmpty() ? ItemStack.EMPTY : currentStack.copy();
+                }
                 currentDetectionSlot = 0;
+            }
+
+            // Detect changes in the target inventory, nine slots at a time
+            for (int j = 0; j < Math.min(RefinedRelocationConfig.getActive().sortingInterfaceSlotsPerTick, inventorySize); j++) {
+                int i = currentDetectionSlot;
+                ItemStack prevStack = lastInventory[i];
+                ItemStack currentStack = container.getItem(i);
+                if (!ItemStack.isSameItemSameComponents(prevStack, currentStack)) {
+                    sortingInventory.onSlotChanged(i);
+                    lastInventory[i] = currentStack.isEmpty() ? ItemStack.EMPTY : currentStack.copy();
+                }
+
+                currentDetectionSlot++;
+                if (currentDetectionSlot >= inventorySize) {
+                    currentDetectionSlot = 0;
+                }
             }
         }
     }
@@ -86,7 +94,7 @@ public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDro
     @Override
     public void setRemoved() {
         super.setRemoved();
-        sortingInventory.onInvalidate(this);
+        sortingInventory.invalidate();
     }
 
     @Override
@@ -105,7 +113,7 @@ public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDro
     public void onLoad() {
         cachedConnectedTile = level.getBlockEntity(worldPosition.relative(getFacing()));
 
-        sortingInventory.onFirstTick(this);
+        sortingInventory.firstTick();
     }
 
     public Direction getFacing() {
@@ -120,21 +128,6 @@ public class SortingInterfaceBlockEntity extends BalmBlockEntity implements IDro
                 new BalmProvider<>(ISortingInventory.class, sortingInventory),
                 new BalmProvider<>(ISortingGridMember.class, sortingInventory)
         );
-    }
-
-//    @Nonnull // TODO dynamic providers
-//    @Override
-//    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-//        LazyOptional<T> result = super.getCapability(cap, side);
-//        if (!result.isPresent() && cachedConnectedTile != null && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-//            return cachedConnectedTile.getCapability(cap, getFacing().getOpposite()).cast();
-//        }
-//
-//        return result;
-//    }
-
-    public String getUnlocalizedName() {
-        return "container.refinedrelocation:sorting_interface";
     }
 
     @Override

@@ -16,15 +16,15 @@ public interface ISortingGridMember {
 	/**
 	 * Implementing tile entities MUST call this on their first tick
 	 */
-	void onFirstTick(BlockEntity blockEntity);
+	void firstTick();
 
 	/**
 	 * Implementing tile entities CAN call this from update, if they are tickable. Required for sorting inventories.
 	 */
-	void onUpdate(BlockEntity blockEntity);
+	void update();
 
 	/**
 	 * Implementing tile entities MUST call this from invalidate() and onChunkUnload()
 	 */
-	void onInvalidate(BlockEntity blockEntity);
+	void invalidate();
 }

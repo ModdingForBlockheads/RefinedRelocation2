@@ -10,6 +10,7 @@ import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.LinkedList;
 
@@ -18,6 +19,10 @@ public class SortingInventory extends SortingGridMember implements ISortingInven
     private final LinkedList<SortingStack> sortingStackList = Lists.newLinkedList();
     private ISimpleFilter filter;
     private int priority;
+
+    public SortingInventory(BlockEntity blockEntity) {
+        super(blockEntity);
+    }
 
     @Override
     public Container getContainer() {
@@ -68,10 +73,10 @@ public class SortingInventory extends SortingGridMember implements ISortingInven
             return;
         }
 
-        Container itemHandler = getContainer();
-        ItemStack itemStack = itemHandler.getItem(slotIndex);
+        final var container = getContainer();
+        final var itemStack = container.getItem(slotIndex);
         if (!itemStack.isEmpty()) {
-            sortingStackList.add(new SortingStack(itemHandler, slotIndex, itemStack));
+            sortingStackList.add(new SortingStack(container, slotIndex, itemStack));
         }
     }
 

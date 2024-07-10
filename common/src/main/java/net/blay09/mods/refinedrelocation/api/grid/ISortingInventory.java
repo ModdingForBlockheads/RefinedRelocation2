@@ -3,10 +3,11 @@ package net.blay09.mods.refinedrelocation.api.grid;
 import net.blay09.mods.refinedrelocation.api.filter.ISimpleFilter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
+import org.jetbrains.annotations.Nullable;
 
 public interface ISortingInventory extends ISortingGridMember {
 
-    Container getContainer();
+    @Nullable Container getContainer();
 
     ISimpleFilter getFilter();
 

@@ -10,11 +10,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class SortingGridMember implements ISortingGridMember {
 
-	private BlockEntity blockEntity;
+	private final BlockEntity blockEntity;
 	private boolean isInvalid;
 	private ISortingGrid sortingGrid;
 
-	@Override
+    public SortingGridMember(BlockEntity blockEntity) {
+        this.blockEntity = blockEntity;
+    }
+
+
+    @Override
 	public BlockEntity getBlockEntity() {
 		return blockEntity;
 	}
@@ -35,20 +40,19 @@ public class SortingGridMember implements ISortingGridMember {
 	}
 
 	@Override
-	public final void onInvalidate(BlockEntity blockEntity) {
+	public final void invalidate() {
 		onInvalidate();
 		isInvalid = true;
 		RefinedRelocationAPI.removeFromSortingGrid(this);
 	}
 
 	@Override
-	public final void onUpdate(BlockEntity blockEntity) {
+	public final void update() {
 		onUpdate();
 	}
 
 	@Override
-	public final void onFirstTick(BlockEntity blockEntity) {
-		this.blockEntity = blockEntity;
+	public final void firstTick() {
 		RefinedRelocationAPI.addToSortingGrid(this);
 		onLoad();
 	}

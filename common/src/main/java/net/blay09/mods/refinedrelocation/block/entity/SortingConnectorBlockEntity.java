@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SortingConnectorBlockEntity extends BalmBlockEntity implements OnLoadHandler {
 
-    private final ISortingGridMember sortingGridMember = new SortingGridMember();
+    private final ISortingGridMember sortingGridMember = new SortingGridMember(this);
 
     public SortingConnectorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.sortingConnector.get(), pos, state);
@@ -21,13 +21,13 @@ public class SortingConnectorBlockEntity extends BalmBlockEntity implements OnLo
 
     @Override
     public void onLoad() {
-        sortingGridMember.onFirstTick(this);
+        sortingGridMember.firstTick();
     }
 
     @Override
     public void setRemoved() {
         super.setRemoved();
-        sortingGridMember.onInvalidate(this);
+        sortingGridMember.invalidate();
     }
 
     @Override
